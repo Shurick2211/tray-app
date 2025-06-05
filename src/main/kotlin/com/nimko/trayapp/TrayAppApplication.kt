@@ -7,5 +7,6 @@ import org.springframework.boot.runApplication
 class TrayAppApplication
 
 fun main(args: Array<String>) {
+    System.setProperty("java.awt.headless", "false")
     runApplication<TrayAppApplication>(*args)
 }

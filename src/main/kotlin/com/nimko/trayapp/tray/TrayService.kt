@@ -1,5 +1,6 @@
 package com.nimko.trayapp.tray
 
+import com.nimko.trayapp.fx.windows.HelloWindow
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Service
 import java.awt.AWTException
@@ -9,6 +10,8 @@ import java.awt.PopupMenu
 import java.awt.SystemTray
 import java.awt.Toolkit
 import java.awt.TrayIcon
+import javafx.application.Platform
+
 
 @Service
 class TrayService {
@@ -21,7 +24,9 @@ class TrayService {
             return
         }
         val tray = SystemTray.getSystemTray()
-        val image = Toolkit.getDefaultToolkit().getImage(javaClass.getResource("icons/icon.png"))
+        val image = Toolkit.getDefaultToolkit().getImage(javaClass.getResource("/icons/icon.png"))
+
+        Platform.startup {  }
 
         val popup = PopupMenu()
 
@@ -29,6 +34,10 @@ class TrayService {
         val helloItem = MenuItem("Say Hello").apply {
             addActionListener {
                 println("Hello from Kotlin TrayApp!")
+                Platform.runLater {
+                    val window = HelloWindow
+                    window.show()
+                }
             }
         }
 
