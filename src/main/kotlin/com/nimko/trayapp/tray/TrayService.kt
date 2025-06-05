@@ -26,7 +26,7 @@ class TrayService {
         val tray = SystemTray.getSystemTray()
         val image = Toolkit.getDefaultToolkit().getImage(javaClass.getResource("/icons/icon.png"))
 
-        Platform.startup {  }
+        Platform.startup { }
 
         val popup = PopupMenu()
 
@@ -34,10 +34,9 @@ class TrayService {
         val helloItem = MenuItem("Say Hello").apply {
             addActionListener {
                 println("Hello from Kotlin TrayApp!")
-                Platform.runLater {
-                    val window = HelloWindow
-                    window.show()
-                }
+
+                val window = HelloWindow
+                window.show()
             }
         }
 
