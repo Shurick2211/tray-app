@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane focusTraversable="true" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nimko.trayapp.fx.windows.HelloWindow">
+   <children>
+      <Text layoutX="273.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello">
+         <font>
+            <Font name="Chilanka Regular" size="35.0" />
+         </font>
+      </Text>
+      <Button fx:id="button" layoutX="510.0" layoutY="350.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="60.0" text="Save" />
+      <TextArea fx:id="textArea" layoutX="20.0" layoutY="106.0" prefHeight="264.0" prefWidth="200.0" />
+      <AnchorPane fx:id="CalendarCh" layoutX="257.0" layoutY="110.0">
+         <children>
+            <Label layoutX="3.0" text="Date:" />
+            <Label layoutX="3.0" layoutY="40.0" text="Hours" />
+            <Slider fx:id="hoursCh" blockIncrement="4.0" layoutX="3.0" layoutY="70.0" max="23.0" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="6.0">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </Slider>
+            <TextField fx:id="hT" layoutX="273.0" layoutY="60.0" prefHeight="40.0" prefWidth="40.0" />
+           <Label layoutX="3.0" layoutY="110.0" text="Minutes" />
+           <Slider fx:id="minutesCh" layoutX="3.0" layoutY="140.0" max="59.0" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </Slider>
+            <TextField fx:id="mT" layoutX="273.0" layoutY="130.0" prefHeight="40.0" prefWidth="40.0" />
+            <DatePicker fx:id="datePicker" layoutX="123.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

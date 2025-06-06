@@ -13,18 +13,22 @@ import java.awt.TrayIcon
 import javafx.application.Platform
 
 
+
 @Service
-class TrayService {
+class TrayService(
+    private val helloWindow: HelloWindow
+) {
     private var trayIcon: TrayIcon? = null
 
     @PostConstruct
     fun init() {
+        val icon = javaClass.getResource("/icons/icon.png")
         if (!SystemTray.isSupported()) {
             println("SystemTray is not supported on this platform.")
             return
         }
         val tray = SystemTray.getSystemTray()
-        val image = Toolkit.getDefaultToolkit().getImage(javaClass.getResource("/icons/icon.png"))
+        val image = Toolkit.getDefaultToolkit().getImage(icon)
 
         Platform.startup { }
 
@@ -34,9 +38,7 @@ class TrayService {
         val helloItem = MenuItem("Say Hello").apply {
             addActionListener {
                 println("Hello from Kotlin TrayApp!")
-
-                val window = HelloWindow
-                window.show()
+                helloWindow.show()
             }
         }
 
