@@ -13,6 +13,9 @@ import javafx.stage.Stage
 import org.springframework.stereotype.Component
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
+import javafx.scene.control.ToggleButton
+import javafx.scene.control.ToggleGroup
+import javafx.scene.layout.AnchorPane
 
 @Component
 class HelloWindow {
@@ -26,6 +29,9 @@ class HelloWindow {
     private lateinit var button: Button
 
     @FXML
+    private lateinit var tb: ToggleButton
+
+    @FXML
     private lateinit var hoursCh: Slider
 
     @FXML
@@ -37,6 +43,8 @@ class HelloWindow {
     @FXML
     private lateinit var mT: TextField
 
+    @FXML
+    private lateinit var calendarCh: AnchorPane
 
     fun show() {
         Platform.runLater {
@@ -51,6 +59,16 @@ class HelloWindow {
     }
 
     fun initialize() {
+        tb.onAction = EventHandler {
+            val cal = "Calendar"
+            val per = "Period"
+            if(tb.text == cal){
+                tb.text = per
+            } else {
+                tb.text = cal
+            }
+        }
+
         button.onMouseClicked = EventHandler {
             textArea.text += "Hello\n"
         }

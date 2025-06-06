@@ -12,6 +12,7 @@
             <Font name="Chilanka Regular" size="35.0" />
          </font>
       </Text>
+      <ToggleButton fx:id="tb"  layoutX="260.0" layoutY="60.0" mnemonicParsing="false" selected="true" text="Calendar" textOverrun="LEADING_WORD_ELLIPSIS" underline="true" />
       <Button fx:id="button" layoutX="510.0" layoutY="350.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="60.0" text="Save" />
       <TextArea fx:id="textArea" layoutX="20.0" layoutY="106.0" prefHeight="264.0" prefWidth="200.0" />
       <AnchorPane fx:id="CalendarCh" layoutX="257.0" layoutY="110.0">
