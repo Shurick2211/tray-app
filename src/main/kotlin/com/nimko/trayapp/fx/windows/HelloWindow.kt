@@ -2,6 +2,7 @@ package com.nimko.trayapp.fx.windows
 
 import com.nimko.trayapp.i18n.FxmlSpringLoader
 import com.nimko.trayapp.i18n.Translator
+import com.nimko.trayapp.services.NotificationService
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -9,6 +10,7 @@ import javafx.fxml.FXML
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.stage.Stage
+import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -16,29 +18,41 @@ import org.springframework.stereotype.Component
 @Component
 class HelloWindow(
     private val context: ApplicationContext,
+    private val notificationService: NotificationService,
 ) {
     @FXML
     private lateinit var textArea: TextArea
+
     @FXML
     private lateinit var datePicker: DatePicker
+
     @FXML
     private lateinit var button: Button
+
     @FXML
     private lateinit var tb: ToggleButton
+
     @FXML
     private lateinit var hoursCh: Slider
+
     @FXML
     private lateinit var minutesCh: Slider
+
     @FXML
     private lateinit var hT: TextField
+
     @FXML
     private lateinit var mT: TextField
+
     @FXML
     private lateinit var dateLabel: Label
+
     @FXML
     private lateinit var textLabel: Label
+
     @FXML
     private lateinit var hoursLabel: Label
+
     @FXML
     private lateinit var minutesLabel: Label
 
@@ -84,7 +98,12 @@ class HelloWindow(
         }
 
         button.onMouseClicked = EventHandler {
-            textArea.text += "Hello\n"
+            val mess = if (StringUtils.isNotBlank(tb.text)) {
+                tb.text
+            } else {
+                ""
+            }
+            notificationService.notification("TrayApp", mess)
         }
 
         datePicker.onAction = EventHandler {

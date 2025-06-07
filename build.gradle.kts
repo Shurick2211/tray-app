@@ -35,6 +35,10 @@ dependencies {
 
     implementation("no.tornado:tornadofx:1.7.20")
 
+    implementation("commons-collections:commons-collections:3.2.2")
+    implementation("io.vavr:vavr:0.10.4")
+    implementation("org.apache.commons:commons-lang3:3.14.0")
+
     // JavaFX platform-specific dependencies
     implementation("org.openjfx:javafx-fxml:20:$platform")
     implementation("org.openjfx:javafx-base:20:$platform")
