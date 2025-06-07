@@ -10,7 +10,6 @@ class NotificationService {
     var title: String = ""
 
     fun notification(message: String) {
-
         val mess = if (StringUtils.isNotBlank(message)) {
             message
         } else {
