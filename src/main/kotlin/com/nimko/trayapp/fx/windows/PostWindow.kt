@@ -90,7 +90,7 @@ class PostWindow(
             post = PostEntity()
         }
         Platform.runLater {
-           stage = Stage().apply {
+            stage = Stage().apply {
                 title = translator.get("title.create")
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/hello_view.fxml")!!)
@@ -125,15 +125,24 @@ class PostWindow(
             saveAction()
         }
 
-        datePicker.onAction = EventHandler {
-            textArea.text += datePicker.value.toString() + "\n"
+        datePicker.onAction = EventHandler { date ->
+            val dt =
+                toInstant(
+                    toLocalDateTime(
+                        (date.source as DatePicker).value,
+                        hoursCh.value.toInt(),
+                        minutesCh.value.toInt()
+                    )
+                )
+            post.date = dt
         }
 
         minutesCh.valueProperty().addListener { observable, oldValue, newValue ->
             mT.valueFactory.value = newValue.toInt()
         }
 
-        mT.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, minutesCh.value.toInt())
+        mT.valueFactory =
+            SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, minutesCh.value.toInt())
         mT.valueProperty().addListener { observable, oldValue, newValue ->
             try {
                 val min = newValue
@@ -152,7 +161,8 @@ class PostWindow(
             hT.valueFactory.value = newValue.toInt()
         }
 
-        hT.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, hoursCh.value.toInt())
+        hT.valueFactory =
+            SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, hoursCh.value.toInt())
         hT.valueProperty().addListener { observable, oldValue, newValue ->
             try {
                 val hours = newValue.toInt()
@@ -191,7 +201,7 @@ class PostWindow(
                 lowerCase(translator.get("minutes"))
             } ${mT.value} "
         } else {
-           "${lowerCase(translator.get("date"))} ${formatInstantToLocalDateTimeString(saved.date)}"
+            "${lowerCase(translator.get("date"))} ${formatInstantToLocalDateTimeString(saved.date)}"
         }
         notificationService.notification("$dateTime \n ${saved.text}")
         stage.close()
