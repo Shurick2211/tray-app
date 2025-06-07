@@ -16,6 +16,7 @@ import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.stage.Stage
 import org.apache.commons.lang3.StringUtils.lowerCase
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -45,10 +46,10 @@ class PostWindow(
     private lateinit var minutesCh: Slider
 
     @FXML
-    private lateinit var hT: TextField
+    private lateinit var hT: Spinner<Int>
 
     @FXML
-    private lateinit var mT: TextField
+    private lateinit var mT: Spinner<Int>
 
     @FXML
     private lateinit var dateLabel: Label
@@ -70,6 +71,10 @@ class PostWindow(
 
     private lateinit var post: PostEntity
 
+    private val log = LoggerFactory.getLogger(javaClass)
+
+    private lateinit var stage: Stage
+
     @PostConstruct
     fun init() {
         Platform.setImplicitExit(false)
@@ -85,7 +90,7 @@ class PostWindow(
             post = PostEntity()
         }
         Platform.runLater {
-            Stage().apply {
+           stage = Stage().apply {
                 title = translator.get("title.create")
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/hello_view.fxml")!!)
@@ -104,13 +109,13 @@ class PostWindow(
             val cal = translator.get("calendar")
             val per = translator.get("period")
             if (tb.text == cal) {
-                isPeriod = false
+                isPeriod = true
                 tb.text = per
                 datePicker.setVisible(false)
                 dateLabel.text = translator.get("set.period")
             } else {
                 tb.text = cal
-                isPeriod = true
+                isPeriod = false
                 datePicker.setVisible(true)
                 dateLabel.text = translator.get("date")
             }
@@ -125,28 +130,30 @@ class PostWindow(
         }
 
         minutesCh.valueProperty().addListener { observable, oldValue, newValue ->
-            mT.text = newValue.toInt().toString()
+            mT.valueFactory.value = newValue.toInt()
         }
-        mT.text = minutesCh.value.toInt().toString()
-        mT.textProperty().addListener { observable, oldValue, newValue ->
+
+        mT.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, minutesCh.value.toInt())
+        mT.valueProperty().addListener { observable, oldValue, newValue ->
             try {
-                val min = newValue.toInt()
+                val min = newValue
                 if (min >= 0 && min < 60) {
                     minutesCh.value = min.toDouble()
                 } else {
                     throw NumberFormatException()
                 }
             } catch (e: Exception) {
-                mT.text = oldValue.toString()
+                mT.valueFactory.value = oldValue
                 e.printStackTrace()
             }
         }
 
         hoursCh.valueProperty().addListener { observable, oldValue, newValue ->
-            hT.text = newValue.toInt().toString()
+            hT.valueFactory.value = newValue.toInt()
         }
-        hT.text = hoursCh.value.toInt().toString()
-        hT.textProperty().addListener { observable, oldValue, newValue ->
+
+        hT.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, hoursCh.value.toInt())
+        hT.valueProperty().addListener { observable, oldValue, newValue ->
             try {
                 val hours = newValue.toInt()
                 if (hours >= 0 && hours < 24) {
@@ -155,7 +162,7 @@ class PostWindow(
                     throw NumberFormatException()
                 }
             } catch (e: Exception) {
-                hT.text = oldValue.toString()
+                hT.valueFactory.value = oldValue
                 e.printStackTrace()
             }
         }
@@ -177,15 +184,17 @@ class PostWindow(
             }
         }
 
+        log.info("For save {}", post)
         val saved = postService.saveOrUpdate(post)
         val dateTime = if (isPeriod) {
-            "${translator.get("period")}: ${lowerCase(translator.get("hours"))} ${hT.text}, ${
+            "${translator.get("period")}: ${lowerCase(translator.get("hours"))} ${hT.value}, ${
                 lowerCase(translator.get("minutes"))
-            } ${mT.text} "
+            } ${mT.value} "
         } else {
            "${lowerCase(translator.get("date"))} ${formatInstantToLocalDateTimeString(saved.date)}"
         }
         notificationService.notification("$dateTime \n ${saved.text}")
+        stage.close()
     }
 
     fun setText() {

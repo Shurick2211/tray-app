@@ -15,23 +15,23 @@
       <ToggleButton fx:id="tb" layoutX="260.0" layoutY="60.0" mnemonicParsing="false" selected="true" text="Calendar" textOverrun="LEADING_WORD_ELLIPSIS" underline="true" />
       <Button fx:id="button" layoutX="430.0" layoutY="350.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="140.0" text="Save" />
       <TextArea fx:id="textArea" layoutX="20.0" layoutY="106.0" prefHeight="264.0" prefWidth="200.0" />
-      <AnchorPane fx:id="CalendarCh" layoutX="257.0" layoutY="110.0">
+      <AnchorPane fx:id="CalendarCh" layoutX="246.0" layoutY="120.0">
          <children>
             <Label fx:id="dateLabel" layoutX="3.0" text="Date:" />
             <Label fx:id="hoursLabel" layoutX="3.0" layoutY="40.0" text="Hours" />
-            <Slider fx:id="hoursCh" blockIncrement="4.0" layoutX="3.0" layoutY="70.0" max="23.0" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="6.0">
+            <Slider fx:id="hoursCh" blockIncrement="1.0" layoutX="3.0" layoutY="70.0" majorTickUnit="3.0" max="23.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Slider>
-            <TextField fx:id="hT" layoutX="273.0" layoutY="60.0" prefHeight="40.0" prefWidth="40.0" />
+            <Spinner fx:id="hT" editable="true" layoutX="270.0" layoutY="63.0" prefHeight="26.0" prefWidth="70.0" />
            <Label fx:id="minutesLabel" layoutX="3.0" layoutY="110.0" text="Minutes" />
-           <Slider fx:id="minutesCh" layoutX="3.0" layoutY="140.0" max="59.0" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+           <Slider fx:id="minutesCh" blockIncrement="1.0" layoutX="3.0" layoutY="140.0" majorTickUnit="10.0" max="59.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Slider>
-            <TextField fx:id="mT" layoutX="273.0" layoutY="130.0" prefHeight="40.0" prefWidth="40.0" />
+            <Spinner fx:id="mT" editable="true" layoutX="270.0" layoutY="133.0" prefHeight="26.0" prefWidth="70.0" />
             <DatePicker fx:id="datePicker" layoutX="123.0" />
          </children>
       </AnchorPane>

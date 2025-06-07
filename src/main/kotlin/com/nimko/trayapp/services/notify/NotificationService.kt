@@ -16,10 +16,11 @@ class NotificationService {
             ""
         }
         val osName = System.getProperty("os.name").lowercase()
-        when {
-            osName.contains("win") -> NotificationWindows().notification(title, mess)
-            osName.contains("mac") -> NotificationMac().notification(title, mess)
-            else -> NotificationGnome().notification(title, mess)
+        val notifier = when {
+            osName.contains("win") -> NotificationWindows()
+            osName.contains("mac") -> NotificationMac()
+            else -> NotificationGnome()
         }
+        notifier.notification(title, message)
     }
 }

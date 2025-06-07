@@ -16,6 +16,7 @@ data class PostEntity(
     var text: String? = null,
     var hours: Int = 0,
     var minutes: Int = 1,
+    var active: Boolean = true,
     @UpdateTimestamp
     var lastUpdate: Instant? = null,
 )
