@@ -1,6 +1,6 @@
 package com.nimko.trayapp.tray
 
-import com.nimko.trayapp.fx.windows.HelloWindow
+import com.nimko.trayapp.fx.windows.PostWindow
 import com.nimko.trayapp.i18n.Translator
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
@@ -11,7 +11,7 @@ import java.util.Locale
 
 @Service
 class TrayService(
-    private val helloWindow: HelloWindow,
+    private val postWindow: PostWindow,
     private val translator: Translator
 ) {
     private var trayIcon: TrayIcon? = null
@@ -37,7 +37,7 @@ class TrayService(
         helloItem = MenuItem(translator.get("title.create")).apply {
             addActionListener {
                 println("Hello from Kotlin TrayApp!")
-                helloWindow.show()
+                postWindow.show()
             }
         }
 
@@ -95,7 +95,7 @@ class TrayService(
         langItem.label = translator.get("language")
         exitItem.label = translator.get("exit")
         Platform.runLater {
-            helloWindow.setText()
+            postWindow.setText()
         }
     }
 }

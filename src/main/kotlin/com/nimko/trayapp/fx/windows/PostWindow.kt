@@ -2,6 +2,8 @@ package com.nimko.trayapp.fx.windows
 
 import com.nimko.trayapp.i18n.FxmlSpringLoader
 import com.nimko.trayapp.i18n.Translator
+import com.nimko.trayapp.model.PostEntity
+import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
@@ -15,9 +17,10 @@ import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 
 @Component
-class HelloWindow(
+class PostWindow(
     private val context: ApplicationContext,
     private val notificationService: NotificationService,
+    private val postService: PostService,
 ) {
     @FXML
     private lateinit var textArea: TextArea
@@ -59,14 +62,27 @@ class HelloWindow(
     @Autowired
     private lateinit var translator: Translator
 
+    private var isPeriod = false
+
+    private lateinit var post: PostEntity
+
     @PostConstruct
     fun init() {
         Platform.setImplicitExit(false)
     }
 
-    fun show() {
+    fun show(id: Long? = null) {
+        id?.let {
+            post = postService.findById(it) ?:
+                    run {
+                        notificationService.notification(translator.get("not.found"))
+                        return@show
+                    }
+        } ?: run {
+            post = PostEntity()
+        }
         Platform.runLater {
-            Stage().apply {
+           val stage = Stage().apply {
                 title = translator.get("title.create")
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/hello_view.fxml")!!)
@@ -80,17 +96,18 @@ class HelloWindow(
         }
     }
 
-
     fun initialize() {
         tb.onAction = EventHandler {
             val cal = translator.get("calendar")
             val per = translator.get("period")
             if (tb.text == cal) {
+                isPeriod = false
                 tb.text = per
                 datePicker.setVisible(false)
                 dateLabel.text = translator.get("set.period")
             } else {
                 tb.text = cal
+                isPeriod = true
                 datePicker.setVisible(true)
                 dateLabel.text = translator.get("date")
             }
