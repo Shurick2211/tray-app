@@ -3,15 +3,9 @@ package com.nimko.trayapp.tray
 import com.nimko.trayapp.fx.windows.HelloWindow
 import com.nimko.trayapp.i18n.Translator
 import jakarta.annotation.PostConstruct
-import org.springframework.stereotype.Service
-import java.awt.AWTException
-import java.awt.Menu
-import java.awt.MenuItem
-import java.awt.PopupMenu
-import java.awt.SystemTray
-import java.awt.Toolkit
-import java.awt.TrayIcon
 import javafx.application.Platform
+import org.springframework.stereotype.Service
+import java.awt.*
 import java.util.Locale
 
 
@@ -21,6 +15,9 @@ class TrayService(
     private val translator: Translator
 ) {
     private var trayIcon: TrayIcon? = null
+    lateinit var helloItem: MenuItem
+    lateinit var langItem: Menu
+    lateinit var exitItem: MenuItem
 
     @PostConstruct
     fun init() {
@@ -37,7 +34,7 @@ class TrayService(
         val popup = PopupMenu()
 
         val submenu = Menu("Options")
-        val helloItem = MenuItem(translator.get("title.create")).apply {
+        helloItem = MenuItem(translator.get("title.create")).apply {
             addActionListener {
                 println("Hello from Kotlin TrayApp!")
                 helloWindow.show()
@@ -46,7 +43,7 @@ class TrayService(
 
         submenu.add(helloItem)
 
-        val exitItem = MenuItem(translator.get("exit")).apply {
+        exitItem = MenuItem(translator.get("exit")).apply {
             addActionListener {
                 tray.remove(trayIcon)
                 println("Exiting Tray App...")
@@ -54,32 +51,31 @@ class TrayService(
             }
         }
 
-//        val langItem = Menu(translator.get("language"))
-//
-//        val en = MenuItem("en").apply {
-//            addActionListener {
-//                Locale.setDefault(Locale.US)
-//            }
-//        }
-//
-//        val ru = MenuItem("ru").apply {
-//            addActionListener {
-//                Locale.setDefault(Locale.forLanguageTag("ru-RU"))
-//            }
-//        }
-//
-//        val ua = MenuItem("ua").apply {
-//            addActionListener {
-//                Locale.setDefault(Locale.forLanguageTag("ua-UA"))
-//            }
-//        }
-//
-//        langItem.add(en)
-//        langItem.add(ru)
-//        langItem.add(ua)
+        langItem = Menu(translator.get("language"))
+        val en = MenuItem("en").apply {
+            addActionListener {
+                Locale.setDefault(Locale.US)
+                setTexts()
+            }
+        }
+        val ru = MenuItem("ru").apply {
+            addActionListener {
+                Locale.setDefault(Locale.forLanguageTag("ru-UA"))
+                setTexts()
+            }
+        }
+        val ua = MenuItem("ua").apply {
+            addActionListener {
+                Locale.setDefault(Locale.forLanguageTag("ua-UA"))
+                setTexts()
+            }
+        }
+        langItem.add(en)
+        langItem.add(ru)
+        langItem.add(ua)
 
         popup.add(helloItem)
-//        popup.add(langItem)
+        popup.add(langItem)
         popup.addSeparator()
         popup.add(exitItem)
 
@@ -91,6 +87,15 @@ class TrayService(
             tray.add(trayIcon)
         } catch (e: AWTException) {
             println("Failed to add tray icon: ${e.message}")
+        }
+    }
+
+    fun setTexts(){
+        helloItem.label = translator.get("title.create")
+        langItem.label = translator.get("language")
+        exitItem.label = translator.get("exit")
+        Platform.runLater {
+            helloWindow.setText()
         }
     }
 }
