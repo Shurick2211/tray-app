@@ -1,5 +1,6 @@
 package com.nimko.trayapp.tray
 
+import com.nimko.trayapp.fx.windows.ListWindow
 import com.nimko.trayapp.fx.windows.PostWindow
 import com.nimko.trayapp.i18n.Translator
 import jakarta.annotation.PostConstruct
@@ -12,12 +13,14 @@ import java.util.Locale
 @Service
 class TrayService(
     private val postWindow: PostWindow,
-    private val translator: Translator
+    private val translator: Translator,
+    private val listWindow: ListWindow
 ) {
     private var trayIcon: TrayIcon? = null
-    lateinit var helloItem: MenuItem
+    lateinit var postItem: MenuItem
     lateinit var langItem: Menu
     lateinit var exitItem: MenuItem
+    lateinit var listItem: MenuItem
 
     @PostConstruct
     fun init() {
@@ -34,14 +37,21 @@ class TrayService(
         val popup = PopupMenu()
 
         val submenu = Menu("Options")
-        helloItem = MenuItem(translator.get("title.create")).apply {
+        postItem = MenuItem(translator.get("title.create")).apply {
             addActionListener {
                 println("Hello from Kotlin TrayApp!")
                 postWindow.show()
             }
         }
 
-        submenu.add(helloItem)
+        submenu.add(postItem)
+
+        listItem = MenuItem(translator.get("list.event")).apply {
+            addActionListener {
+                println("List event!")
+                listWindow.show()
+            }
+        }
 
         exitItem = MenuItem(translator.get("exit")).apply {
             addActionListener {
@@ -74,7 +84,9 @@ class TrayService(
         langItem.add(ru)
         langItem.add(ua)
 
-        popup.add(helloItem)
+        popup.add(postItem)
+        popup.add(listItem)
+        popup.addSeparator()
         popup.add(langItem)
         popup.addSeparator()
         popup.add(exitItem)
@@ -91,9 +103,10 @@ class TrayService(
     }
 
     fun setTexts(){
-        helloItem.label = translator.get("title.create")
+        postItem.label = translator.get("title.create")
         langItem.label = translator.get("language")
         exitItem.label = translator.get("exit")
+        listItem.label = translator.get("list.event")
         Platform.runLater {
             postWindow.setText()
         }

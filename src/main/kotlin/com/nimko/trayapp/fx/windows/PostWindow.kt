@@ -6,6 +6,7 @@ import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
 import com.nimko.trayapp.utils.formatInstantToLocalDateTimeString
+import com.nimko.trayapp.utils.instantToLocalDate
 import com.nimko.trayapp.utils.toInstant
 import com.nimko.trayapp.utils.toLocalDateTime
 import jakarta.annotation.PostConstruct
@@ -93,7 +94,7 @@ class PostWindow(
             stage = Stage().apply {
                 title = translator.get("title.create")
                 val root =
-                    FxmlSpringLoader.load(context, javaClass.getResource("/fxml/hello_view.fxml")!!)
+                    FxmlSpringLoader.load(context, javaClass.getResource("/fxml/post_view.fxml")!!)
                 scene = Scene(root, 600.0, 400.0)
                 setOnCloseRequest {
                     println("Window onCloseRequest")
@@ -148,6 +149,7 @@ class PostWindow(
                 val min = newValue
                 if (min >= 0 && min < 60) {
                     minutesCh.value = min.toDouble()
+                    post.minutes = min.toInt()
                 } else {
                     throw NumberFormatException()
                 }
@@ -168,6 +170,7 @@ class PostWindow(
                 val hours = newValue.toInt()
                 if (hours >= 0 && hours < 24) {
                     hoursCh.value = hours.toDouble()
+                    post.hours = hours
                 } else {
                     throw NumberFormatException()
                 }
@@ -177,6 +180,21 @@ class PostWindow(
             }
         }
         setText()
+        if (post.id != null) {
+            setPost()
+        }
+    }
+
+    private fun setPost() {
+        textArea.text = post.text
+        mT.valueFactory.value = post.minutes
+        hT.valueFactory.value = post.hours
+        tb.isSelected = post.date == null
+        if (post.date != null) {
+            datePicker.value = instantToLocalDate(post.date!!)
+        } else{
+            tb.fire()
+        }
     }
 
     private fun saveAction() {

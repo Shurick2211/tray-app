@@ -24,7 +24,7 @@ class ScheduledService(
         log.info("Found: {}", posts)
 
         for (post in posts) {
-            val postId = post.long ?: continue
+            val postId = post.id ?: continue
             val notifyByTime = post.active && post.date?.isBefore(now) == true
             val isPeriodic =  post.active && post.date == null && post.minutes > 0
 

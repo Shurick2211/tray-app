@@ -11,7 +11,7 @@ import java.time.Instant
 data class PostEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var long: Long? = null,
+    var id: Long? = null,
     var date: Instant? = null,
     var text: String? = null,
     var hours: Int = 0,

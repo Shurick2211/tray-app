@@ -24,3 +24,7 @@ fun formatInstantToLocalDateTimeString(date: Instant?): String {
     val dateTime = date!!.atZone(ZoneId.systemDefault()).toLocalDateTime()
     return dateTime.format(DATE_TIME_FORMATTER)
 }
+
+fun instantToLocalDate(instant: Instant): LocalDate {
+    return instant.atZone(ZoneId.systemDefault()).toLocalDate()
+}
