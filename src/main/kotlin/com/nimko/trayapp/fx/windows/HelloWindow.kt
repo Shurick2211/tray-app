@@ -98,12 +98,7 @@ class HelloWindow(
         }
 
         button.onMouseClicked = EventHandler {
-            val mess = if (StringUtils.isNotBlank(tb.text)) {
-                tb.text
-            } else {
-                ""
-            }
-            notificationService.notification("TrayApp", mess)
+            notificationService.notification(textArea.text)
         }
 
         datePicker.onAction = EventHandler {
