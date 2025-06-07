@@ -5,6 +5,9 @@ import com.nimko.trayapp.i18n.Translator
 import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
+import com.nimko.trayapp.utils.formatInstantToLocalDateTimeString
+import com.nimko.trayapp.utils.toInstant
+import com.nimko.trayapp.utils.toLocalDateTime
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -12,6 +15,7 @@ import javafx.fxml.FXML
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.stage.Stage
+import org.apache.commons.lang3.StringUtils.lowerCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -73,16 +77,15 @@ class PostWindow(
 
     fun show(id: Long? = null) {
         id?.let {
-            post = postService.findById(it) ?:
-                    run {
-                        notificationService.notification(translator.get("not.found"))
-                        return@show
-                    }
+            post = postService.findById(it) ?: run {
+                notificationService.notification(translator.get("not.found"))
+                return@show
+            }
         } ?: run {
             post = PostEntity()
         }
         Platform.runLater {
-           val stage = Stage().apply {
+            Stage().apply {
                 title = translator.get("title.create")
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/hello_view.fxml")!!)
@@ -114,7 +117,7 @@ class PostWindow(
         }
 
         button.onMouseClicked = EventHandler {
-            notificationService.notification(textArea.text)
+            saveAction()
         }
 
         datePicker.onAction = EventHandler {
@@ -157,6 +160,32 @@ class PostWindow(
             }
         }
         setText()
+    }
+
+    private fun saveAction() {
+        post.text = textArea.text
+
+        if (isPeriod) {
+            post.date = null
+        } else {
+            datePicker.value?.let { date ->
+                val dt =
+                    toInstant(toLocalDateTime(date, hoursCh.value.toInt(), minutesCh.value.toInt()))
+                post.date = dt
+            } ?: run {
+                return@saveAction
+            }
+        }
+
+        val saved = postService.saveOrUpdate(post)
+        val dateTime = if (isPeriod) {
+            "${translator.get("period")}: ${lowerCase(translator.get("hours"))} ${hT.text}, ${
+                lowerCase(translator.get("minutes"))
+            } ${mT.text} "
+        } else {
+           "${lowerCase(translator.get("date"))} ${formatInstantToLocalDateTimeString(saved.date)}"
+        }
+        notificationService.notification("$dateTime \n ${saved.text}")
     }
 
     fun setText() {
