@@ -2,7 +2,7 @@ package com.nimko.trayapp.fx.windows
 
 import com.nimko.trayapp.i18n.FxmlSpringLoader
 import com.nimko.trayapp.i18n.Translator
-import com.nimko.trayapp.services.NotificationService
+import com.nimko.trayapp.services.notify.NotificationService
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -10,7 +10,6 @@ import javafx.fxml.FXML
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.stage.Stage
-import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component

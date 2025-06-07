@@ -1,4 +1,4 @@
-package com.nimko.trayapp.services
+package com.nimko.trayapp.services.notify
 
 import org.springframework.stereotype.Service
 

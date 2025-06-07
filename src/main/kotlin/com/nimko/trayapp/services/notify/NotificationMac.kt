@@ -1,4 +1,4 @@
-package com.nimko.trayapp.services
+package com.nimko.trayapp.services.notify
 
 class NotificationMac: Noticeable {
     override fun notification(title: String, message: String) {
