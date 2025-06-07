@@ -1,6 +1,7 @@
 package com.nimko.trayapp.tray
 
 import com.nimko.trayapp.fx.windows.HelloWindow
+import com.nimko.trayapp.i18n.Translator
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Service
 import java.awt.AWTException
@@ -11,12 +12,13 @@ import java.awt.SystemTray
 import java.awt.Toolkit
 import java.awt.TrayIcon
 import javafx.application.Platform
-
+import java.util.Locale
 
 
 @Service
 class TrayService(
-    private val helloWindow: HelloWindow
+    private val helloWindow: HelloWindow,
+    private val translator: Translator
 ) {
     private var trayIcon: TrayIcon? = null
 
@@ -35,7 +37,7 @@ class TrayService(
         val popup = PopupMenu()
 
         val submenu = Menu("Options")
-        val helloItem = MenuItem("Say Hello").apply {
+        val helloItem = MenuItem(translator.get("title.create")).apply {
             addActionListener {
                 println("Hello from Kotlin TrayApp!")
                 helloWindow.show()
@@ -44,7 +46,7 @@ class TrayService(
 
         submenu.add(helloItem)
 
-        val exitItem = MenuItem("Exit").apply {
+        val exitItem = MenuItem(translator.get("exit")).apply {
             addActionListener {
                 tray.remove(trayIcon)
                 println("Exiting Tray App...")
@@ -52,7 +54,32 @@ class TrayService(
             }
         }
 
-        popup.add(submenu)
+//        val langItem = Menu(translator.get("language"))
+//
+//        val en = MenuItem("en").apply {
+//            addActionListener {
+//                Locale.setDefault(Locale.US)
+//            }
+//        }
+//
+//        val ru = MenuItem("ru").apply {
+//            addActionListener {
+//                Locale.setDefault(Locale.forLanguageTag("ru-RU"))
+//            }
+//        }
+//
+//        val ua = MenuItem("ua").apply {
+//            addActionListener {
+//                Locale.setDefault(Locale.forLanguageTag("ua-UA"))
+//            }
+//        }
+//
+//        langItem.add(en)
+//        langItem.add(ru)
+//        langItem.add(ua)
+
+        popup.add(helloItem)
+//        popup.add(langItem)
         popup.addSeparator()
         popup.add(exitItem)
 

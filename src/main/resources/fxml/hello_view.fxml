@@ -12,12 +12,12 @@
             <Font name="Chilanka Regular" size="35.0" />
          </font>
       </Text>
-      <ToggleButton fx:id="tb"  layoutX="260.0" layoutY="60.0" mnemonicParsing="false" selected="true" text="Calendar" textOverrun="LEADING_WORD_ELLIPSIS" underline="true" />
+      <ToggleButton fx:id="tb" layoutX="260.0" layoutY="60.0" mnemonicParsing="false" selected="true" text="Calendar" textOverrun="LEADING_WORD_ELLIPSIS" underline="true" />
       <Button fx:id="button" layoutX="510.0" layoutY="350.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="60.0" text="Save" />
       <TextArea fx:id="textArea" layoutX="20.0" layoutY="106.0" prefHeight="264.0" prefWidth="200.0" />
       <AnchorPane fx:id="CalendarCh" layoutX="257.0" layoutY="110.0">
          <children>
-            <Label layoutX="3.0" text="Date:" />
+            <Label fx:id="dateLabel" layoutX="3.0" text="Date:" />
             <Label layoutX="3.0" layoutY="40.0" text="Hours" />
             <Slider fx:id="hoursCh" blockIncrement="4.0" layoutX="3.0" layoutY="70.0" max="23.0" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="6.0">
                <cursor>
@@ -35,5 +35,6 @@
             <DatePicker fx:id="datePicker" layoutX="123.0" />
          </children>
       </AnchorPane>
+      <Label layoutX="20.0" layoutY="77.0" text="Text:" />
    </children>
 </AnchorPane>

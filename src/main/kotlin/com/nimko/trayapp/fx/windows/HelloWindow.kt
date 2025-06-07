@@ -1,71 +1,79 @@
 package com.nimko.trayapp.fx.windows
 
-
+import com.nimko.trayapp.i18n.FxmlSpringLoader
+import com.nimko.trayapp.i18n.Translator
 import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
-import javafx.scene.control.Button
-import javafx.scene.control.DatePicker
-import javafx.scene.control.Slider
+import javafx.scene.control.*
 import javafx.stage.Stage
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
-import javafx.scene.control.TextArea
-import javafx.scene.control.TextField
-import javafx.scene.control.ToggleButton
-import javafx.scene.control.ToggleGroup
-import javafx.scene.layout.AnchorPane
 
 @Component
-class HelloWindow {
+class HelloWindow(
+    private val context: ApplicationContext,
+) {
     @FXML
     private lateinit var textArea: TextArea
-
     @FXML
     private lateinit var datePicker: DatePicker
-
     @FXML
     private lateinit var button: Button
-
     @FXML
     private lateinit var tb: ToggleButton
-
     @FXML
     private lateinit var hoursCh: Slider
-
     @FXML
     private lateinit var minutesCh: Slider
-
     @FXML
     private lateinit var hT: TextField
-
     @FXML
     private lateinit var mT: TextField
-
     @FXML
-    private lateinit var calendarCh: AnchorPane
+    private lateinit var dateLabel: Label
+
+    @Autowired
+    private lateinit var translator: Translator
+
+
+    private var stage: Stage? = null
 
     fun show() {
         Platform.runLater {
-            val stage = Stage()
-            stage.title = "Hello"
-            val loader = FXMLLoader(javaClass.getResource("/fxml/hello_view.fxml"))
-            val root = loader.load<javafx.scene.Parent>()
-            val scene = Scene(root, 600.0, 400.0)
-            stage.scene = scene
-            stage.show()
+            if (stage == null || !stage!!.isShowing) {
+                stage = Stage().apply {
+                    title = translator.get("title.create")
+                    val root = FxmlSpringLoader.load(context, javaClass.getResource("/fxml/hello_view.fxml")!!)
+                    scene = Scene(root, 600.0, 400.0)
+                    setOnCloseRequest {
+                        println("Window onCloseRequest")
+                        stage!!.hide()
+                    }
+                    show()
+                }
+            } else {
+                show()
+                stage!!.toFront()
+            }
         }
     }
 
+
     fun initialize() {
         tb.onAction = EventHandler {
-            val cal = "Calendar"
+            val cal = translator.get("calendar")
             val per = "Period"
             if(tb.text == cal){
                 tb.text = per
+                datePicker.setVisible(false)
+                dateLabel.text = "Set period:"
             } else {
                 tb.text = cal
+                datePicker.setVisible(true)
+                dateLabel.text = "Date:"
             }
         }
 
