@@ -12,6 +12,7 @@ import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
@@ -152,9 +153,11 @@ class PostWindow(
                     println("Window onCloseRequest")
                     Platform.requestNextPulse()
                 }
+                val iconUrl = javaClass.getResource("/icons/icon.png")!!
+                icons.add(Image(iconUrl.toExternalForm()))
+                resizableProperty().value = false
                 show()
             }
-            stage.resizableProperty().value = false
         }
     }
 

@@ -44,7 +44,7 @@ fun instantToLocalDate(instant: Instant): LocalDate {
 
 fun dateString(post:PostEntity):String {
     val date =
-    post.date?.let {d -> d.toString() } ?: if (CollectionUtils.isEmpty(post.daysOfWeek)) {
+    post.date?.let {d -> formatInstantToLocalDateTimeString(d) } ?: if (CollectionUtils.isEmpty(post.daysOfWeek)) {
         "${post.hours}h ${post.minutes}min"
     } else {
         "${ String.format("%02d", post.hours)}:${ String.format("%02d", post.minutes)}\n${

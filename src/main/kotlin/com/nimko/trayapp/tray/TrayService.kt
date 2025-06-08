@@ -5,6 +5,7 @@ import com.nimko.trayapp.fx.windows.PostWindow
 import com.nimko.trayapp.i18n.Translator
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.awt.*
 import java.util.Locale
@@ -21,6 +22,8 @@ class TrayService(
     lateinit var langItem: Menu
     lateinit var exitItem: MenuItem
     lateinit var listItem: MenuItem
+    @Value("\${app.title}")
+    var appTitle: String? = null
 
     @PostConstruct
     fun init() {
@@ -93,7 +96,7 @@ class TrayService(
         popup.addSeparator()
         popup.add(exitItem)
 
-        trayIcon = TrayIcon(image, "Kotlin Spring Tray App", popup).apply {
+        trayIcon = TrayIcon(image, appTitle, popup).apply {
             isImageAutoSize = true
         }
 

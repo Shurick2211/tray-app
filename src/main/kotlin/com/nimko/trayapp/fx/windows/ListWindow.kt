@@ -18,6 +18,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
+import javafx.scene.image.Image
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
 import org.springframework.context.ApplicationContext
@@ -69,10 +70,12 @@ class ListWindow(
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/list_view.fxml")!!)
                 scene = Scene(root, 1024.0, 720.0)
+                val iconUrl = javaClass.getResource("/icons/icon.png")!!
+                icons.add(Image(iconUrl.toExternalForm()))
+                reloadViewsOnFocus()
+                resizableProperty().value = false
                 show()
             }
-            stage.reloadViewsOnFocus()
-            stage.resizableProperty().value = false
         }
     }
 
@@ -83,7 +86,7 @@ class ListWindow(
         nameCol.setCellValueFactory { SimpleStringProperty(it.value.id.toString()) }
         dateCol.setCellValueFactory { SimpleStringProperty(dateString(it.value)) }
         textCol.setCellValueFactory { SimpleStringProperty(it.value.text) }
-        activeCol.setCellValueFactory { SimpleStringProperty(if (it.value.active) "Yes" else "No") }
+        activeCol.setCellValueFactory { SimpleStringProperty(if (it.value.active) translator.get("is.active") else translator.get("no.active")) }
 
         actionCol.setCellValueFactory { features -> SimpleObjectProperty(features.value) }
 
@@ -147,12 +150,20 @@ class ListWindow(
                 }
             }
         }
-
+        setTranslation()
         refreshTable()
     }
 
+    private fun setTranslation() {
+        nameCol.text = translator.get("grid.name")
+        dateCol.text = translator.get("grid.period")
+        textCol.text = translator.get("grid.text")
+        activeCol.text = translator.get("grid.active")
+        actionCol.text = translator.get("grid.action")
+    }
+
     private fun refreshTable() {
-        val posts = postService.findAll()
+        val posts = postService.findAll().sortedByDescending { it.active }
         postItems.setAll(posts)
     }
 
