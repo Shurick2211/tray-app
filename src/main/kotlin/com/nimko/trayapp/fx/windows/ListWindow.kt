@@ -19,7 +19,7 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
-import javafx.stage.WindowEvent
+import org.apache.commons.collections.CollectionUtils
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 import tornadofx.reloadViewsOnFocus
@@ -76,10 +76,16 @@ class ListWindow(
 
     fun initialize() {
         tableView.items = postItems
-
+        postWindow.addSaveListeners { refreshTable() }
 
         nameCol.setCellValueFactory { SimpleStringProperty(it.value.id.toString()) }
-        dateCol.setCellValueFactory { SimpleStringProperty(it.value.date?.let {d -> d.toString() } ?: "${it.value.hours}h ${it.value.minutes}min") }
+        dateCol.setCellValueFactory { SimpleStringProperty(
+            it.value.date?.let {d -> d.toString() } ?: if (CollectionUtils.isEmpty(it.value.daysOfWeek)) {
+                "${it.value.hours}h ${it.value.minutes}min"
+            } else {
+                "${it.value.hours}:${it.value.minutes}\n${it.value.daysOfWeek.joinToString(", ")}"
+            }
+        ) }
         textCol.setCellValueFactory { SimpleStringProperty(it.value.text) }
         activeCol.setCellValueFactory { SimpleStringProperty(if (it.value.active) "Yes" else "No") }
 
@@ -87,9 +93,9 @@ class ListWindow(
 
         actionCol.setCellFactory {
             object : TableCell<PostEntity, PostEntity>() {
-                private val editButton = Button("✏️")
+                private val editButton = Button("\uD83D\uDD8D")
                 private val deleteButton = Button("🗑")
-                private val hBox = HBox(10.0, editButton, deleteButton)
+                private val hBox = HBox(20.0, editButton, deleteButton)
 
                 override fun updateItem(item: PostEntity?, empty: Boolean) {
                     super.updateItem(item, empty)
@@ -99,7 +105,6 @@ class ListWindow(
                     }
                     editButton.onAction = EventHandler {
                         postWindow.show(item.id)
-                        refreshTable()
                     }
                     deleteButton.onAction = EventHandler {
                         postService.deleteById(item.id!!)

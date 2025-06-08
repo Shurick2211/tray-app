@@ -15,24 +15,75 @@
       <ToggleButton fx:id="tb" layoutX="260.0" layoutY="60.0" mnemonicParsing="false" selected="true" text="Calendar" textOverrun="LEADING_WORD_ELLIPSIS" underline="true" />
       <Button fx:id="button" layoutX="430.0" layoutY="350.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="140.0" text="Save" />
       <TextArea fx:id="textArea" layoutX="20.0" layoutY="106.0" prefHeight="264.0" prefWidth="200.0" />
-      <AnchorPane fx:id="CalendarCh" layoutX="246.0" layoutY="120.0">
+      <AnchorPane fx:id="CalendarCh" layoutX="222.0" layoutY="100.0" prefHeight="245.0" prefWidth="378.0">
          <children>
             <Label fx:id="dateLabel" layoutX="3.0" text="Date:" />
-            <Label fx:id="hoursLabel" layoutX="3.0" layoutY="40.0" text="Hours" />
-            <Slider fx:id="hoursCh" blockIncrement="1.0" layoutX="3.0" layoutY="70.0" majorTickUnit="3.0" max="23.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Label fx:id="hoursLabel" layoutX="5.0" layoutY="100.0" text="Hours" />
+            <Slider fx:id="hoursCh" blockIncrement="1.0" layoutX="5.0" layoutY="130.0" majorTickUnit="3.0" max="23.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Slider>
-            <Spinner fx:id="hT" editable="true" layoutX="270.0" layoutY="63.0" prefHeight="26.0" prefWidth="70.0" />
-           <Label fx:id="minutesLabel" layoutX="3.0" layoutY="110.0" text="Minutes" />
-           <Slider fx:id="minutesCh" blockIncrement="1.0" layoutX="3.0" layoutY="140.0" majorTickUnit="10.0" max="59.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Spinner fx:id="hT" editable="true" layoutX="270.0" layoutY="125.0" prefHeight="26.0" prefWidth="70.0" />
+           <Label fx:id="minutesLabel" layoutX="5.0" layoutY="170.0" text="Minutes" />
+           <Slider fx:id="minutesCh" blockIncrement="1.0" layoutX="5.0" layoutY="200.0" majorTickUnit="10.0" max="59.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Slider>
-            <Spinner fx:id="mT" editable="true" layoutX="270.0" layoutY="133.0" prefHeight="26.0" prefWidth="70.0" />
-            <DatePicker fx:id="datePicker" layoutX="123.0" />
+            <Spinner fx:id="mT" editable="true" layoutX="270.0" layoutY="195.0" prefHeight="26.0" prefWidth="70.0" />
+            <DatePicker fx:id="datePicker" layoutX="14.0" layoutY="40.0" prefHeight="26.0" prefWidth="250.0" />
+            <AnchorPane fx:id="periodAnchor" layoutX="-1.0" layoutY="2.0" prefHeight="110.0" prefWidth="343.0">
+               <children>
+                  <CheckBox fx:id="onlyCh" layoutX="14.0" layoutY="31.0" mnemonicParsing="false" text="By week day" />
+                  <HBox fx:id="dayBox" alignment="CENTER" layoutX="3.0" layoutY="59.0" prefHeight="51.0" prefWidth="338.0" spacing="20.0">
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label fx:id="mnL" text="Mn" />
+                              <CheckBox fx:id="mnCh" mnemonicParsing="false" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label fx:id="tuL" text="Tu" />
+                              <CheckBox fx:id="tuCh" mnemonicParsing="false" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label fx:id="weL" text="We" />
+                              <CheckBox fx:id="weCh" mnemonicParsing="false" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label fx:id="thL" text="Th" />
+                              <CheckBox fx:id="thCh" mnemonicParsing="false" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label fx:id="frL" text="Fr" />
+                              <CheckBox fx:id="frCh" mnemonicParsing="false" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label fx:id="stL" text="St" />
+                              <CheckBox fx:id="stCh" mnemonicParsing="false" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label fx:id="suL" text="Su" />
+                              <CheckBox fx:id="suCh" mnemonicParsing="false" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
       <Label fx:id="textLabel" layoutX="20.0" layoutY="77.0" text="Text:" />

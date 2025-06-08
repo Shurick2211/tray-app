@@ -12,6 +12,11 @@ fun toLocalDateTime(date: LocalDate, hh: Int, mm: Int): LocalDateTime {
     return date.atTime(hh, mm)
 }
 
+
+fun paramsToInstant(date: LocalDate, hh: Int, mm: Int): Instant {
+    return  toInstant(toLocalDateTime(date, hh, mm))
+}
+
 const val DATE_TIME_FORMAT_ISO = "yyyy-MM-dd HH:mm"
 val DATE_TIME_FORMATTER: DateTimeFormatter? = DateTimeFormatter.ofPattern(
     DATE_TIME_FORMAT_ISO

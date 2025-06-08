@@ -15,12 +15,15 @@ import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.HBox
 import javafx.stage.Stage
 import org.apache.commons.lang3.StringUtils.lowerCase
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
+import java.time.DayOfWeek
 
 @Component
 class PostWindow(
@@ -30,40 +33,62 @@ class PostWindow(
 ) {
     @FXML
     private lateinit var textArea: TextArea
-
     @FXML
     private lateinit var datePicker: DatePicker
-
     @FXML
     private lateinit var button: Button
-
     @FXML
     private lateinit var tb: ToggleButton
-
     @FXML
     private lateinit var hoursCh: Slider
-
     @FXML
     private lateinit var minutesCh: Slider
-
     @FXML
     private lateinit var hT: Spinner<Int>
-
     @FXML
     private lateinit var mT: Spinner<Int>
-
     @FXML
     private lateinit var dateLabel: Label
-
     @FXML
     private lateinit var textLabel: Label
-
     @FXML
     private lateinit var hoursLabel: Label
-
     @FXML
     private lateinit var minutesLabel: Label
-
+    @FXML
+    private lateinit var periodAnchor: AnchorPane
+    @FXML
+    private lateinit var dayBox: HBox
+    @FXML
+    private lateinit var onlyCh:CheckBox
+    @FXML
+    private lateinit var mnL: Label
+    @FXML
+    private lateinit var tuL: Label
+    @FXML
+    private lateinit var weL: Label
+    @FXML
+    private lateinit var thL: Label
+    @FXML
+    private lateinit var frL: Label
+    @FXML
+    private lateinit var stL: Label
+    @FXML
+    private lateinit var suL: Label
+    @FXML
+    private lateinit var mnCh: CheckBox
+    @FXML
+    private lateinit var tuCh: CheckBox
+    @FXML
+    private lateinit var weCh: CheckBox
+    @FXML
+    private lateinit var thCh: CheckBox
+    @FXML
+    private lateinit var frCh: CheckBox
+    @FXML
+    private lateinit var stCh: CheckBox
+    @FXML
+    private lateinit var suCh: CheckBox
 
     @Autowired
     private lateinit var translator: Translator
@@ -75,6 +100,8 @@ class PostWindow(
     private val log = LoggerFactory.getLogger(javaClass)
 
     private lateinit var stage: Stage
+
+    private val listeners = HashSet<Runnable>()
 
     @PostConstruct
     fun init() {
@@ -106,18 +133,27 @@ class PostWindow(
     }
 
     fun initialize() {
+        periodAnchor.isVisible = isPeriod
+        dayBox.isVisible = onlyCh.isSelected
+
+        onlyCh.onAction = EventHandler {
+            dayBox.isVisible = onlyCh.isSelected
+        }
+
         tb.onAction = EventHandler {
             val cal = translator.get("calendar")
             val per = translator.get("period")
             if (tb.text == cal) {
                 isPeriod = true
                 tb.text = per
-                datePicker.setVisible(false)
+                datePicker.isVisible = false
+                periodAnchor.isVisible = isPeriod
                 dateLabel.text = translator.get("set.period")
             } else {
                 tb.text = cal
                 isPeriod = false
-                datePicker.setVisible(true)
+                datePicker.isVisible = true
+                periodAnchor.isVisible = isPeriod
                 dateLabel.text = translator.get("date")
             }
         }
@@ -179,9 +215,64 @@ class PostWindow(
                 e.printStackTrace()
             }
         }
+
+        dayCheckBoxInit()
+
         setText()
         if (post.id != null) {
             setPost()
+        }
+    }
+
+    private fun dayCheckBoxInit() {
+        mnCh.onAction = EventHandler {
+            if (mnCh.isSelected) {
+                post.daysOfWeek.plus(DayOfWeek.MONDAY.value)
+            } else {
+                post.daysOfWeek.minus(DayOfWeek.MONDAY.value)
+            }
+        }
+        tuCh.onAction = EventHandler {
+            if (mnCh.isSelected) {
+                post.daysOfWeek.plus(DayOfWeek.TUESDAY.value)
+            } else {
+                post.daysOfWeek.minus(DayOfWeek.TUESDAY.value)
+            }
+        }
+        weCh.onAction = EventHandler {
+            if (mnCh.isSelected) {
+                post.daysOfWeek.plus(DayOfWeek.WEDNESDAY.value)
+            } else {
+                post.daysOfWeek.minus(DayOfWeek.WEDNESDAY.value)
+            }
+        }
+        thCh.onAction = EventHandler {
+            if (mnCh.isSelected) {
+                post.daysOfWeek.plus(DayOfWeek.THURSDAY.value)
+            } else {
+                post.daysOfWeek.minus(DayOfWeek.THURSDAY.value)
+            }
+        }
+        frCh.onAction = EventHandler {
+            if (mnCh.isSelected) {
+                post.daysOfWeek.plus(DayOfWeek.FRIDAY.value)
+            } else {
+                post.daysOfWeek.minus(DayOfWeek.FRIDAY.value)
+            }
+        }
+        stCh.onAction = EventHandler {
+            if (mnCh.isSelected) {
+                post.daysOfWeek.plus(DayOfWeek.SATURDAY.value)
+            } else {
+                post.daysOfWeek.minus(DayOfWeek.SATURDAY.value)
+            }
+        }
+        suCh.onAction = EventHandler {
+            if (mnCh.isSelected) {
+                post.daysOfWeek.plus(DayOfWeek.SUNDAY.value)
+            } else {
+                post.daysOfWeek.minus(DayOfWeek.SUNDAY.value)
+            }
         }
     }
 
@@ -222,6 +313,7 @@ class PostWindow(
             "${lowerCase(translator.get("date"))} ${formatInstantToLocalDateTimeString(saved.date)}"
         }
         notificationService.notification("$dateTime \n ${saved.text}")
+        listeners.forEach { it.run() }
         stage.close()
     }
 
@@ -232,5 +324,10 @@ class PostWindow(
         textLabel.text = translator.get("text")
         hoursLabel.text = translator.get("hours")
         minutesLabel.text = translator.get("minutes")
+        onlyCh.text = translator.get("by.week.day")
+    }
+
+     fun addSaveListeners(runnable: Runnable) {
+        listeners.add(runnable)
     }
 }
