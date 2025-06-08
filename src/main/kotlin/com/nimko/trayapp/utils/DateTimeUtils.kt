@@ -2,6 +2,7 @@ package com.nimko.trayapp.utils
 
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.*
 
 fun toInstant(date: LocalDateTime): Instant {
@@ -15,6 +16,11 @@ fun toLocalDateTime(date: LocalDate, hh: Int, mm: Int): LocalDateTime {
 
 fun paramsToInstant(date: LocalDate, hh: Int, mm: Int): Instant {
     return  toInstant(toLocalDateTime(date, hh, mm))
+}
+
+fun dayShortName(dayValue: Int): String {
+    val day = DayOfWeek.of(dayValue)
+    return day.getDisplayName(TextStyle.SHORT, Locale.getDefault())
 }
 
 const val DATE_TIME_FORMAT_ISO = "yyyy-MM-dd HH:mm"

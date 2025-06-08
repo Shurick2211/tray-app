@@ -5,6 +5,7 @@ import com.nimko.trayapp.i18n.Translator
 import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
+import com.nimko.trayapp.utils.dayShortName
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import javafx.beans.property.SimpleObjectProperty
@@ -83,7 +84,13 @@ class ListWindow(
             it.value.date?.let {d -> d.toString() } ?: if (CollectionUtils.isEmpty(it.value.daysOfWeek)) {
                 "${it.value.hours}h ${it.value.minutes}min"
             } else {
-                "${it.value.hours}:${it.value.minutes}\n${it.value.daysOfWeek.joinToString(", ")}"
+                "${it.value.hours}:${it.value.minutes}\n${
+                    it.value.daysOfWeek.joinToString(", ") {
+                        dayShortName(
+                            it
+                        )
+                    }
+                }"
             }
         ) }
         textCol.setCellValueFactory { SimpleStringProperty(it.value.text) }

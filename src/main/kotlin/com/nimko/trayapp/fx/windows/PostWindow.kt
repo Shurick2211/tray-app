@@ -5,6 +5,7 @@ import com.nimko.trayapp.i18n.Translator
 import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
+import com.nimko.trayapp.utils.dayShortName
 import com.nimko.trayapp.utils.formatInstantToLocalDateTimeString
 import com.nimko.trayapp.utils.instantToLocalDate
 import com.nimko.trayapp.utils.toInstant
@@ -18,6 +19,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
+import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang3.StringUtils.lowerCase
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,60 +35,88 @@ class PostWindow(
 ) {
     @FXML
     private lateinit var textArea: TextArea
+
     @FXML
     private lateinit var datePicker: DatePicker
+
     @FXML
     private lateinit var button: Button
+
     @FXML
     private lateinit var tb: ToggleButton
+
     @FXML
     private lateinit var hoursCh: Slider
+
     @FXML
     private lateinit var minutesCh: Slider
+
     @FXML
     private lateinit var hT: Spinner<Int>
+
     @FXML
     private lateinit var mT: Spinner<Int>
+
     @FXML
     private lateinit var dateLabel: Label
+
     @FXML
     private lateinit var textLabel: Label
+
     @FXML
     private lateinit var hoursLabel: Label
+
     @FXML
     private lateinit var minutesLabel: Label
+
     @FXML
     private lateinit var periodAnchor: AnchorPane
+
     @FXML
     private lateinit var dayBox: HBox
+
     @FXML
-    private lateinit var onlyCh:CheckBox
+    private lateinit var onlyCh: CheckBox
+
     @FXML
     private lateinit var mnL: Label
+
     @FXML
     private lateinit var tuL: Label
+
     @FXML
     private lateinit var weL: Label
+
     @FXML
     private lateinit var thL: Label
+
     @FXML
     private lateinit var frL: Label
+
     @FXML
     private lateinit var stL: Label
+
     @FXML
     private lateinit var suL: Label
+
     @FXML
     private lateinit var mnCh: CheckBox
+
     @FXML
     private lateinit var tuCh: CheckBox
+
     @FXML
     private lateinit var weCh: CheckBox
+
     @FXML
     private lateinit var thCh: CheckBox
+
     @FXML
     private lateinit var frCh: CheckBox
+
     @FXML
     private lateinit var stCh: CheckBox
+
     @FXML
     private lateinit var suCh: CheckBox
 
@@ -225,53 +255,83 @@ class PostWindow(
     }
 
     private fun dayCheckBoxInit() {
-        mnCh.onAction = EventHandler {
-            if (mnCh.isSelected) {
-                post.daysOfWeek.plus(DayOfWeek.MONDAY.value)
+        if (CollectionUtils.isNotEmpty(post.daysOfWeek)) {
+            onlyCh.fire()
+            post.daysOfWeek!!.forEach { dayOfWeek ->
+                when {
+                    dayOfWeek == 1 -> {
+                        mnCh.fire()
+                    }
+                    dayOfWeek == 2 -> {
+                        tuCh.fire()
+                    }
+                    dayOfWeek == 3 -> {
+                        weCh.fire()
+                    }
+                    dayOfWeek == 4 -> {
+                        thCh.fire()
+                    }
+                    dayOfWeek == 5 -> {
+                        frCh.fire()
+                    }
+                    dayOfWeek == 6 -> {
+                        stCh.fire()
+                    }
+                    dayOfWeek == 7 -> {
+                        suCh.fire()
+                    }
+                }
+            }
+
+        }
+
+        mnCh.selectedProperty().addListener { _, oldValue, newValue ->
+            if (newValue) {
+                post.daysOfWeek.add(DayOfWeek.MONDAY.value)
             } else {
-                post.daysOfWeek.minus(DayOfWeek.MONDAY.value)
+                post.daysOfWeek.remove(DayOfWeek.MONDAY.value)
             }
         }
-        tuCh.onAction = EventHandler {
-            if (mnCh.isSelected) {
-                post.daysOfWeek.plus(DayOfWeek.TUESDAY.value)
+        tuCh.selectedProperty().addListener { _, oldValue, newValue ->
+            if (newValue) {
+                post.daysOfWeek.add(DayOfWeek.TUESDAY.value)
             } else {
-                post.daysOfWeek.minus(DayOfWeek.TUESDAY.value)
+                post.daysOfWeek.remove(DayOfWeek.TUESDAY.value)
             }
         }
-        weCh.onAction = EventHandler {
-            if (mnCh.isSelected) {
-                post.daysOfWeek.plus(DayOfWeek.WEDNESDAY.value)
+        weCh.selectedProperty().addListener { _, oldValue, newValue ->
+            if (newValue) {
+                post.daysOfWeek.add(DayOfWeek.WEDNESDAY.value)
             } else {
-                post.daysOfWeek.minus(DayOfWeek.WEDNESDAY.value)
+                post.daysOfWeek.remove(DayOfWeek.WEDNESDAY.value)
             }
         }
-        thCh.onAction = EventHandler {
-            if (mnCh.isSelected) {
-                post.daysOfWeek.plus(DayOfWeek.THURSDAY.value)
+        thCh.selectedProperty().addListener { _, oldValue, newValue ->
+            if (newValue) {
+                post.daysOfWeek.add(DayOfWeek.THURSDAY.value)
             } else {
-                post.daysOfWeek.minus(DayOfWeek.THURSDAY.value)
+                post.daysOfWeek.remove(DayOfWeek.THURSDAY.value)
             }
         }
-        frCh.onAction = EventHandler {
-            if (mnCh.isSelected) {
-                post.daysOfWeek.plus(DayOfWeek.FRIDAY.value)
+        frCh.selectedProperty().addListener { _, oldValue, newValue ->
+            if (newValue) {
+                post.daysOfWeek.add(DayOfWeek.FRIDAY.value)
             } else {
-                post.daysOfWeek.minus(DayOfWeek.FRIDAY.value)
+                post.daysOfWeek.remove(DayOfWeek.FRIDAY.value)
             }
         }
-        stCh.onAction = EventHandler {
-            if (mnCh.isSelected) {
-                post.daysOfWeek.plus(DayOfWeek.SATURDAY.value)
+        stCh.selectedProperty().addListener { _, oldValue, newValue ->
+            if (newValue) {
+                post.daysOfWeek.add(DayOfWeek.SATURDAY.value)
             } else {
-                post.daysOfWeek.minus(DayOfWeek.SATURDAY.value)
+                post.daysOfWeek.remove(DayOfWeek.SATURDAY.value)
             }
         }
-        suCh.onAction = EventHandler {
-            if (mnCh.isSelected) {
-                post.daysOfWeek.plus(DayOfWeek.SUNDAY.value)
+        suCh.selectedProperty().addListener { _, oldValue, newValue ->
+            if (newValue) {
+                post.daysOfWeek.add(DayOfWeek.SUNDAY.value)
             } else {
-                post.daysOfWeek.minus(DayOfWeek.SUNDAY.value)
+                post.daysOfWeek.remove(DayOfWeek.SUNDAY.value)
             }
         }
     }
@@ -283,7 +343,7 @@ class PostWindow(
         tb.isSelected = post.date == null
         if (post.date != null) {
             datePicker.value = instantToLocalDate(post.date!!)
-        } else{
+        } else {
             tb.fire()
         }
     }
@@ -325,9 +385,16 @@ class PostWindow(
         hoursLabel.text = translator.get("hours")
         minutesLabel.text = translator.get("minutes")
         onlyCh.text = translator.get("by.week.day")
+        mnL.text = dayShortName(1)
+        tuL.text = dayShortName(2)
+        weL.text = dayShortName(3)
+        thL.text = dayShortName(4)
+        frL.text = dayShortName(5)
+        stL.text = dayShortName(6)
+        suL.text = dayShortName(7)
     }
 
-     fun addSaveListeners(runnable: Runnable) {
+    fun addSaveListeners(runnable: Runnable) {
         listeners.add(runnable)
     }
 }

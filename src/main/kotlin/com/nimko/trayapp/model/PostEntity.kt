@@ -20,7 +20,7 @@ data class PostEntity(
     var minutes: Int = 1,
     var active: Boolean = true,
     @JdbcTypeCode(SqlTypes.ARRAY)
-    var daysOfWeek: List<Int> = mutableListOf(),
+    var daysOfWeek: MutableList<Int> = mutableListOf(),
     @UpdateTimestamp
     var lastUpdate: Instant? = null,
 )
