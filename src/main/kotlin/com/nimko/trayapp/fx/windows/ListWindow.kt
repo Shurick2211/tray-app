@@ -6,7 +6,6 @@ import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
 import com.nimko.trayapp.utils.dateString
-import com.nimko.trayapp.utils.dayShortName
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import javafx.beans.property.SimpleObjectProperty
@@ -21,12 +20,10 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
-import org.apache.commons.collections.CollectionUtils
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 import tornadofx.reloadViewsOnFocus
 import tornadofx.tooltip
-import kotlin.jvm.Throws
 
 
 @Component
