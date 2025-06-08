@@ -51,7 +51,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.nimko.trayapp.TrayAppApplication")
+    mainClass.set("com.nimko.trayapp.TrayAppApplicationKt")
 }
 
 tasks.withType<Test> {
