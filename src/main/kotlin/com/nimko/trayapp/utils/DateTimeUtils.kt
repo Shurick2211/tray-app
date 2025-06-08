@@ -1,5 +1,7 @@
 package com.nimko.trayapp.utils
 
+import com.nimko.trayapp.model.PostEntity
+import org.apache.commons.collections.CollectionUtils
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -38,4 +40,20 @@ fun formatInstantToLocalDateTimeString(date: Instant?): String {
 
 fun instantToLocalDate(instant: Instant): LocalDate {
     return instant.atZone(ZoneId.systemDefault()).toLocalDate()
+}
+
+fun dateString(post:PostEntity):String {
+    val date =
+    post.date?.let {d -> d.toString() } ?: if (CollectionUtils.isEmpty(post.daysOfWeek)) {
+        "${post.hours}h ${post.minutes}min"
+    } else {
+        "${ String.format("%02d", post.hours)}:${ String.format("%02d", post.minutes)}\n${
+            post.daysOfWeek.joinToString(", ") {
+                dayShortName(
+                    it
+                )
+            }
+        }"
+    }
+    return date
 }

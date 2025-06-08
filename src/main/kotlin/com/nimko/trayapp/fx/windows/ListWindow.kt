@@ -5,6 +5,7 @@ import com.nimko.trayapp.i18n.Translator
 import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
+import com.nimko.trayapp.utils.dateString
 import com.nimko.trayapp.utils.dayShortName
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
@@ -24,6 +25,8 @@ import org.apache.commons.collections.CollectionUtils
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 import tornadofx.reloadViewsOnFocus
+import tornadofx.tooltip
+import kotlin.jvm.Throws
 
 
 @Component
@@ -72,6 +75,7 @@ class ListWindow(
                 show()
             }
             stage.reloadViewsOnFocus()
+            stage.resizableProperty().value = false
         }
     }
 
@@ -80,19 +84,7 @@ class ListWindow(
         postWindow.addSaveListeners { refreshTable() }
 
         nameCol.setCellValueFactory { SimpleStringProperty(it.value.id.toString()) }
-        dateCol.setCellValueFactory { SimpleStringProperty(
-            it.value.date?.let {d -> d.toString() } ?: if (CollectionUtils.isEmpty(it.value.daysOfWeek)) {
-                "${it.value.hours}h ${it.value.minutes}min"
-            } else {
-                "${it.value.hours}:${it.value.minutes}\n${
-                    it.value.daysOfWeek.joinToString(", ") {
-                        dayShortName(
-                            it
-                        )
-                    }
-                }"
-            }
-        ) }
+        dateCol.setCellValueFactory { SimpleStringProperty(dateString(it.value)) }
         textCol.setCellValueFactory { SimpleStringProperty(it.value.text) }
         activeCol.setCellValueFactory { SimpleStringProperty(if (it.value.active) "Yes" else "No") }
 
@@ -102,7 +94,8 @@ class ListWindow(
             object : TableCell<PostEntity, PostEntity>() {
                 private val editButton = Button("\uD83D\uDD8D")
                 private val deleteButton = Button("🗑")
-                private val hBox = HBox(20.0, editButton, deleteButton)
+                private val disableButton = Button("❌")
+                private val hBox = HBox(20.0, editButton, disableButton, deleteButton)
 
                 override fun updateItem(item: PostEntity?, empty: Boolean) {
                     super.updateItem(item, empty)
@@ -113,11 +106,46 @@ class ListWindow(
                     editButton.onAction = EventHandler {
                         postWindow.show(item.id)
                     }
+                    editButton.tooltip(translator.get("edit"))
+
+                    if (item.date != null && !item.active) {
+                        disableButton.isDisable = true
+                    }
+
+                    if (item.active) {
+                        disableButton.text = "❌"
+                        disableButton.tooltip(translator.get("disable"))
+                    } else {
+                        disableButton.text = "✔"
+                        disableButton.tooltip(translator.get("enable"))
+                    }
+
+                    disableButton.onAction = EventHandler {
+                        if (item.active) {
+                            item.active = false
+                            postService.saveOrUpdate(item)
+                            Thread.sleep(300)
+                            disableButton.text = "✔"
+                            disableButton.tooltip(translator.get("enable"))
+                            if (item.date != null) {
+                                disableButton.isDisable = true
+                            }
+                        } else {
+                            item.active = true
+                            postService.saveOrUpdate(item)
+                            Thread.sleep(300)
+                            disableButton.text = "❌"
+                            disableButton.tooltip(translator.get("disable"))
+                        }
+                        refreshTable()
+                    }
+
                     deleteButton.onAction = EventHandler {
                         postService.deleteById(item.id!!)
                         notificationService.notification("Deleted post ${item.id}")
                         refreshTable()
                     }
+                    deleteButton.tooltip(translator.get("delete"))
                     graphic = hBox
                 }
             }

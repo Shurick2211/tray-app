@@ -32,7 +32,9 @@ class TrayService(
         val tray = SystemTray.getSystemTray()
         val image = Toolkit.getDefaultToolkit().getImage(icon)
 
-        Platform.startup { }
+        if (!Platform.isFxApplicationThread()) {
+            Platform.startup { }
+        }
 
         val popup = PopupMenu()
 
@@ -102,7 +104,7 @@ class TrayService(
         }
     }
 
-    fun setTexts(){
+    fun setTexts() {
         postItem.label = translator.get("title.create")
         langItem.label = translator.get("language")
         exitItem.label = translator.get("exit")

@@ -1,5 +1,5 @@
 app:
-  title: 'Tray App'
+  title: 'My reminder!'
 
 spring:
   application:

@@ -5,11 +5,7 @@ import com.nimko.trayapp.i18n.Translator
 import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
 import com.nimko.trayapp.services.notify.NotificationService
-import com.nimko.trayapp.utils.dayShortName
-import com.nimko.trayapp.utils.formatInstantToLocalDateTimeString
-import com.nimko.trayapp.utils.instantToLocalDate
-import com.nimko.trayapp.utils.toInstant
-import com.nimko.trayapp.utils.toLocalDateTime
+import com.nimko.trayapp.utils.*
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -159,11 +155,13 @@ class PostWindow(
                 }
                 show()
             }
+            stage.resizableProperty().value = false
         }
     }
 
     fun initialize() {
         periodAnchor.isVisible = isPeriod
+        onlyCh.isVisible = isPeriod
         dayBox.isVisible = onlyCh.isSelected
 
         onlyCh.onAction = EventHandler {
@@ -178,12 +176,14 @@ class PostWindow(
                 tb.text = per
                 datePicker.isVisible = false
                 periodAnchor.isVisible = isPeriod
+                onlyCh.isVisible = isPeriod
                 dateLabel.text = translator.get("set.period")
             } else {
                 tb.text = cal
                 isPeriod = false
                 datePicker.isVisible = true
                 periodAnchor.isVisible = isPeriod
+                onlyCh.isVisible = isPeriod
                 dateLabel.text = translator.get("date")
             }
         }
@@ -365,14 +365,7 @@ class PostWindow(
 
         log.info("For save {}", post)
         val saved = postService.saveOrUpdate(post)
-        val dateTime = if (isPeriod) {
-            "${translator.get("period")}: ${lowerCase(translator.get("hours"))} ${hT.value}, ${
-                lowerCase(translator.get("minutes"))
-            } ${mT.value} "
-        } else {
-            "${lowerCase(translator.get("date"))} ${formatInstantToLocalDateTimeString(saved.date)}"
-        }
-        notificationService.notification("$dateTime \n ${saved.text}")
+        notificationService.notification("${dateString(saved)} \n ${saved.text}")
         listeners.forEach { it.run() }
         stage.close()
     }
