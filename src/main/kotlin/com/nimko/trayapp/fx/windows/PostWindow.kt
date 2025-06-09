@@ -162,6 +162,7 @@ class PostWindow(
     }
 
     fun initialize() {
+        datePicker.isVisible = !isPeriod
         periodAnchor.isVisible = isPeriod
         onlyCh.isVisible = isPeriod
         dayBox.isVisible = onlyCh.isSelected
