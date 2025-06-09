@@ -25,15 +25,15 @@ class ScheduledService(
         val now = Instant.now()
         val posts = postService.findAll()
         log.info("Found: {}", posts)
-        val localNow = LocalDate.now();
+        val localNow = LocalDate.now()
 
         for (post in posts) {
             val postId = post.id ?: continue
-            val notifyByTime = (post.active && post.date?.isBefore(now) == true )||
+            val notifyByTime = post.active && (post.date?.isBefore(now) == true ||
                     (CollectionUtils.isNotEmpty(post.daysOfWeek) &&
                             post.daysOfWeek!!.contains(localNow.dayOfWeek.value) &&
                             paramsToInstant(localNow, post.hours, post.minutes).isBefore(now)
-                            )
+                            ))
             val isPeriodic =  post.active && post.date == null && post.minutes > 0
 
             if (notifyByTime) {
