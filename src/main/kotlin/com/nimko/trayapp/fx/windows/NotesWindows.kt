@@ -2,7 +2,7 @@ package com.nimko.trayapp.fx.windows
 
 import com.nimko.trayapp.i18n.FxmlSpringLoader
 import com.nimko.trayapp.i18n.Translator
-import com.nimko.trayapp.services.notify.NotificationService
+import com.nimko.trayapp.services.NotesService
 import com.nimko.trayapp.utils.formatInstantToLocalDateTimeString
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
@@ -23,11 +23,12 @@ import java.time.Instant
 @Service
 class NotesWindows(
     private val context: ApplicationContext,
-    private val notificationService: NotificationService,
     private val translator: Translator,
+    private val notesService: NotesService
 ) {
     @FXML
     private lateinit var pane: FlowPane
+
     @FXML
     private lateinit var addButton: Button
 
@@ -58,26 +59,23 @@ class NotesWindows(
     }
 
     fun initialize() {
-        val addButton = Button("+").apply {
-            style = "-fx-font-size: 24px; -fx-background-radius: 50%; -fx-pref-width: 50px; -fx-pref-height: 50px;"
-            setOnAction {
-                createCard("", Instant.now())
-            }
+        addButton.setOnAction {
+            createCard("", Instant.now())
         }
     }
 
-    fun createCard(text: String, date: Instant) {
+    fun createCard(text: String, date: Instant, id:String? = null) {
         val textArea = TextArea(text).apply {
             isWrapText = true
-            prefWidth = 150.0
-            prefHeight = 100.0
+            prefWidth = 240.0
+            prefHeight = 150.0
         }
         val label = Label(formatInstantToLocalDateTimeString(date)).apply {
-            style = "-fx-font-size: 8px: -fx-font-color: lightgray; -fx-background-color:  #f4f4f4;"
+            styleClass.add("label-date")
         }
 
         val card = VBox(label, textArea).apply {
-            style = "-fx-background-color: #f4f4f4; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;"
+            styleClass.add("card")
             padding = Insets(5.0)
             spacing = 5.0
         }
