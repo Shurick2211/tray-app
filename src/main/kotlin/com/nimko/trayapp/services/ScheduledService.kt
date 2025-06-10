@@ -33,13 +33,15 @@ class ScheduledService(
                     (CollectionUtils.isNotEmpty(post.daysOfWeek) &&
                             post.daysOfWeek!!.contains(localNow.dayOfWeek.value) &&
                             paramsToInstant(localNow, post.hours, post.minutes).isBefore(now)
+                            && paramsToInstant(localNow, post.hours, post.minutes).plusSeconds(50)
+                                .isAfter(now)
                             ))
-            val isPeriodic =  post.active && post.date == null && post.minutes > 0
+            val isPeriodic = post.active && post.date == null && post.minutes > 0
 
             if (notifyByTime) {
                 notificationService.notification(post.text ?: "(no message)")
                 log.info("🔔 Sent scheduled notification for post id=$postId")
-                if(post.date != null) {
+                if (post.date != null) {
                     post.active = false
                     postService.saveOrUpdate(post)
                 }
