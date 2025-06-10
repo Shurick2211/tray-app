@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nimko.trayapp.fx.windows.NotesWindows">
+  <stylesheets>
+    <URL value="@/css/styles-notes.css" />
+  </stylesheets>
+  <children>
+      <ScrollPane hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+          <FlowPane fx:id="pane" hgap="10" maxWidth="800" prefWrapLength="800" styleClass="flow-pane" vgap="10" />
+         </content>
+      </ScrollPane>
+    <Button fx:id="addButton" styleClass="round-button" text="+" AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" />
+  </children>
+</AnchorPane>

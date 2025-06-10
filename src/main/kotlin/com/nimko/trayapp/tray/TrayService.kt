@@ -1,6 +1,7 @@
 package com.nimko.trayapp.tray
 
 import com.nimko.trayapp.fx.windows.ListWindow
+import com.nimko.trayapp.fx.windows.NotesWindows
 import com.nimko.trayapp.fx.windows.PostWindow
 import com.nimko.trayapp.i18n.Translator
 import jakarta.annotation.PostConstruct
@@ -15,13 +16,15 @@ import java.util.Locale
 class TrayService(
     private val postWindow: PostWindow,
     private val translator: Translator,
-    private val listWindow: ListWindow
+    private val listWindow: ListWindow,
+    private val notesWindows: NotesWindows
 ) {
     private var trayIcon: TrayIcon? = null
     lateinit var postItem: MenuItem
     lateinit var langItem: Menu
     lateinit var exitItem: MenuItem
     lateinit var listItem: MenuItem
+    lateinit var notesItem: MenuItem
     @Value("\${app.title}")
     var appTitle: String? = null
 
@@ -44,7 +47,7 @@ class TrayService(
         val submenu = Menu("Options")
         postItem = MenuItem(translator.get("title.create")).apply {
             addActionListener {
-                println("Hello from Kotlin TrayApp!")
+                println("Post!")
                 postWindow.show()
             }
         }
@@ -55,6 +58,13 @@ class TrayService(
             addActionListener {
                 println("List event!")
                 listWindow.show()
+            }
+        }
+
+        notesItem = MenuItem(translator.get("notes")).apply {
+            addActionListener {
+                println("Notes!")
+                notesWindows.show()
             }
         }
 
@@ -92,6 +102,8 @@ class TrayService(
         popup.add(postItem)
         popup.add(listItem)
         popup.addSeparator()
+        popup.add(notesItem)
+        popup.addSeparator()
         popup.add(langItem)
         popup.addSeparator()
         popup.add(exitItem)
@@ -112,6 +124,7 @@ class TrayService(
         langItem.label = translator.get("language")
         exitItem.label = translator.get("exit")
         listItem.label = translator.get("list.event")
+        notesItem.label = translator.get("notes")
         Platform.runLater {
             postWindow.setText()
         }

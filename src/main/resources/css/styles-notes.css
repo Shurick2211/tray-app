@@ -1,0 +1,25 @@
+.round-button {
+  -fx-font-size: 24px;
+  -fx-background-radius: 50%;
+  -fx-min-width: 50px;
+  -fx-min-height: 50px;
+  -fx-max-width: 50px;
+  -fx-max-height: 50px;
+}
+
+.label-date {
+  -fx-font-size: 8px;
+  -fx-font-color: lightgray;
+  -fx-background-color: #f4f4f4;
+}
+
+.card {
+  -fx-background-color: #f4f4f4;
+  -fx-border-color: #ccc;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+}
+
+.flow-pane {
+  -fx-padding: 10px;
+}
