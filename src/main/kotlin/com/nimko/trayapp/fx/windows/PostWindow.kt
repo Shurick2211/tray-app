@@ -4,6 +4,7 @@ import com.nimko.trayapp.i18n.FxmlSpringLoader
 import com.nimko.trayapp.i18n.Translator
 import com.nimko.trayapp.model.PostEntity
 import com.nimko.trayapp.services.PostService
+import com.nimko.trayapp.services.RandomLineService
 import com.nimko.trayapp.services.notify.NotificationService
 import com.nimko.trayapp.utils.*
 import jakarta.annotation.PostConstruct
@@ -15,9 +16,10 @@ import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
+import javafx.scene.text.Text
 import javafx.stage.Stage
-import javafx.stage.StageStyle
 import org.apache.commons.collections.CollectionUtils
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -29,6 +31,7 @@ class PostWindow(
     private val context: ApplicationContext,
     private val notificationService: NotificationService,
     private val postService: PostService,
+    private val randomLineService: RandomLineService,
 ) {
     @FXML
     private lateinit var textArea: TextArea
@@ -116,6 +119,8 @@ class PostWindow(
 
     @FXML
     private lateinit var suCh: CheckBox
+    @FXML
+    private lateinit var quote: Text
 
     @Autowired
     private lateinit var translator: Translator
@@ -169,6 +174,11 @@ class PostWindow(
         periodAnchor.isVisible = isPeriod
         onlyCh.isVisible = isPeriod
         dayBox.isVisible = onlyCh.isSelected
+
+        val quoteStr = randomLineService.getRandomLine()
+        if (StringUtils.isNotBlank(quoteStr)) {
+            quote.text = quoteStr
+        }
 
         onlyCh.onAction = EventHandler {
             dayBox.isVisible = onlyCh.isSelected

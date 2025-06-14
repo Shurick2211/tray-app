@@ -7,7 +7,7 @@
 
 <AnchorPane focusTraversable="true" prefHeight="400.0" prefWidth="600.0" styleClass="custom-back" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nimko.trayapp.fx.windows.PostWindow">
    <children>
-      <Text layoutX="6.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="no-font-override" text="Imagine where you would be next year if you start right now!" textAlignment="CENTER" wrappingWidth="588.82763671875">
+      <Text fx:id="quote" layoutX="6.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="no-font-override" text="Imagine where you would be next year if you start right now!" textAlignment="CENTER" wrappingWidth="588.82763671875">
          <font>
             <Font name="Chilanka Regular" size="20.0" />
          </font>
