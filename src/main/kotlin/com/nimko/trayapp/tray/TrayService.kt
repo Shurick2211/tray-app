@@ -28,6 +28,8 @@ class TrayService(
     @Value("\${app.title}")
     var appTitle: String? = null
 
+    private val trayFont = Font("DejaVu Serif", Font.PLAIN, 14)
+
     @PostConstruct
     fun init() {
         val icon = javaClass.getResource("/icons/icon.png")
@@ -107,6 +109,12 @@ class TrayService(
         popup.add(langItem)
         popup.addSeparator()
         popup.add(exitItem)
+
+        postItem.font = trayFont
+        listItem.font = trayFont
+        notesItem.font = trayFont
+        exitItem.font = trayFont
+        langItem.font = trayFont
 
         trayIcon = TrayIcon(image, appTitle, popup).apply {
             isImageAutoSize = true

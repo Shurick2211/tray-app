@@ -23,3 +23,7 @@
 .flow-pane {
   -fx-padding: 10px;
 }
+
+* {
+  -fx-font-family: "DejaVu Serif";
+}

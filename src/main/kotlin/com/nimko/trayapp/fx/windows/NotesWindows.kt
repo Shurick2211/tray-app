@@ -45,12 +45,14 @@ class NotesWindows(
     }
 
     fun show() {
+        val css = javaClass.getResource("/css/styles-notes.css").toExternalForm()
         Platform.runLater {
             stage = Stage().apply {
                 title = translator.get("notes")
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/notes_view.fxml")!!)
                 scene = Scene(root, 800.0, 600.0)
+                scene.getStylesheets().add(css);
                 setOnCloseRequest {
                     println("Window onCloseRequest")
                     Platform.requestNextPulse()
@@ -65,6 +67,7 @@ class NotesWindows(
 
     fun initialize() {
         addAll()
+        addButton.text = "➕"
         addButton.setOnAction {
             createCard(NotesEntity(null,"", Instant.now()))
         }

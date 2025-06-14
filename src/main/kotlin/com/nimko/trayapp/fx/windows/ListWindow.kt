@@ -64,12 +64,14 @@ class ListWindow(
     }
 
     fun show() {
+        val css = javaClass.getResource("/css/styles-notes.css").toExternalForm()
         Platform.runLater {
             stage = Stage().apply {
                 title = translator.get("list.event")
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/list_view.fxml")!!)
                 scene = Scene(root, 1024.0, 720.0)
+                scene.getStylesheets().add(css);
                 val iconUrl = javaClass.getResource("/icons/icon.png")!!
                 icons.add(Image(iconUrl.toExternalForm()))
                 reloadViewsOnFocus()

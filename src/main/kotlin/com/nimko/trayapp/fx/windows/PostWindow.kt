@@ -143,12 +143,14 @@ class PostWindow(
         } ?: run {
             post = PostEntity()
         }
+        val css = javaClass.getResource("/css/styles-notes.css").toExternalForm()
         Platform.runLater {
             stage = Stage().apply {
                 title = translator.get("title.create")
                 val root =
                     FxmlSpringLoader.load(context, javaClass.getResource("/fxml/post_view.fxml")!!)
                 scene = Scene(root, 600.0, 400.0)
+                scene.getStylesheets().add(css);
                 setOnCloseRequest {
                     println("Window onCloseRequest")
                     Platform.requestNextPulse()
