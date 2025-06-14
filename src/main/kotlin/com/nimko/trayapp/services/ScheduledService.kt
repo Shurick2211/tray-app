@@ -36,7 +36,7 @@ class ScheduledService(
                             && paramsToInstant(localNow, post.hours, post.minutes).plusSeconds(50)
                                 .isAfter(now)
                             ))
-            val isPeriodic = post.active && post.date == null && post.minutes > 0
+            val isPeriodic = post.active && post.date == null
 
             if (notifyByTime) {
                 notificationService.notification(post.text ?: "(no message)")

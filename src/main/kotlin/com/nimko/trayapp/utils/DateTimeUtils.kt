@@ -17,7 +17,7 @@ fun toLocalDateTime(date: LocalDate, hh: Int, mm: Int): LocalDateTime {
 
 
 fun paramsToInstant(date: LocalDate, hh: Int, mm: Int): Instant {
-    return  toInstant(toLocalDateTime(date, hh, mm))
+    return  toLocalDateTime(date, hh, mm).atZone(ZoneId.systemDefault()).toInstant()
 }
 
 fun dayShortName(dayValue: Int): String {
