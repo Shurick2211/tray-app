@@ -3,6 +3,7 @@
 @import "spinner.css";
 @import "slider.css";
 @import "check-box.css";
+@import "grid.css";
 
 .round-button {
   -fx-font-size: 24px;
@@ -19,14 +20,14 @@
 }
 
 .label-date {
-  -fx-font-size: 8px;
-  -fx-font-color: lightgray;
-  -fx-background-color: #f4f4f4;
+  -fx-font-size: 10px;
+  -fx-text-fill:  #520e0b;
+  -fx-background-color: Transperend;
 }
 
 .card {
-  -fx-background-color: #f4f4f4;
-  -fx-border-color: #ccc;
+  -fx-background-color: #d4a7a1;
+  -fx-border-color: #520e0b;
   -fx-border-radius: 5;
   -fx-background-radius: 5;
 }

@@ -1,0 +1,57 @@
+.table-view {
+  -fx-background-color: #f3dad2;
+  -fx-border-color: #70130f;
+  -fx-border-radius: 4;
+  -fx-table-cell-border-color: #d4a7a1;
+}
+
+/* Stripe rows */
+.table-row-cell:odd {
+  -fx-background-color: #f7e4dd;
+}
+.table-row-cell:even {
+  -fx-background-color: #f3dad2;
+}
+
+/* Hover */
+.table-row-cell:hover {
+  -fx-background-color: #e5c3bc;
+}
+
+/* Selected */
+.table-row-cell:selected {
+  -fx-background-color: #c9796f;
+  -fx-text-fill: white;
+}
+
+/* Header background */
+.table-view .column-header-background {
+  -fx-background-color: linear-gradient(to bottom, #70130f, #520e0b);
+}
+
+/* Each column header */
+.table-view .column-header,
+.table-view .filler {
+  -fx-border-color: #520e0b;
+  -fx-border-width: 0 0 2 0; /* bottom border */
+  -fx-background-color: transparent;
+  -fx-padding: 5 10;
+}
+
+/* Header label text */
+.table-view .column-header .label {
+  -fx-text-fill: #f4f4f4;
+  -fx-font-weight: bold;
+  -fx-font-size: 14px;
+  -fx-alignment: center-left;
+}
+
+/* Hover on header */
+.table-view .column-header:hover {
+  -fx-background-color: #8c1a15;
+}
+
+/* Pressed header (when clicking to sort) */
+.table-view .column-header:pressed {
+  -fx-background-color: #4d0e0a;
+}
