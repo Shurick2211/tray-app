@@ -16,6 +16,7 @@ import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
+import javafx.stage.StageStyle
 import org.apache.commons.collections.CollectionUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

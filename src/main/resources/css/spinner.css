@@ -1,0 +1,25 @@
+.spinner {
+  -fx-background-color: #f3dad2;
+  -fx-border-color: #520e0b;
+  -fx-border-radius: 3;
+  -fx-padding: 2;
+}
+
+/* Spinner arrow buttons */
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+  -fx-background-color: #e4bfba;
+  -fx-border-color: #520e0b;
+}
+
+/* Hover */
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+  -fx-background-color: #d4a7a1;
+}
+
+/* Pressed */
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+  -fx-background-color: #b07872;
+}

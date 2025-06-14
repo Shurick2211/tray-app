@@ -1,0 +1,29 @@
+
+.check-box {
+  -fx-background-color: #f3dad2;
+  -fx-text-fill: #70130f; /* label text color */
+  -fx-font-weight: bold;
+  -fx-padding: 3;
+}
+
+/* Box (the actual checkbox square) */
+.check-box .box {
+  -fx-border-color: #520e0b;
+  -fx-border-radius: 3;
+  -fx-background-radius: 3;
+  -fx-padding: 3;
+}
+
+.check-box:selected .box {
+  -fx-background-color: #c9796f;
+}
+
+
+.check-box:hover .box {
+  -fx-background-color: #e5c3bc;
+}
+
+
+.check-box:pressed .box {
+  -fx-background-color: #70130f;
+}

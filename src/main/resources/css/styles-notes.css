@@ -1,3 +1,9 @@
+@import "button.css";
+@import "date-picker.css";
+@import "spinner.css";
+@import "slider.css";
+@import "check-box.css";
+
 .round-button {
   -fx-font-size: 24px;
   -fx-background-radius: 50%;
@@ -5,6 +11,11 @@
   -fx-min-height: 50px;
   -fx-max-width: 50px;
   -fx-max-height: 50px;
+  -fx-border-radius: 50%;
+  -fx-text-fill: #ffffff;
+}
+.round-button:pressed {
+  -fx-border-radius: 50%;
 }
 
 .label-date {
@@ -24,6 +35,16 @@
   -fx-padding: 10px;
 }
 
-* {
+*:not(.no-font-override) {
   -fx-font-family: "DejaVu Serif";
+}
+
+
+.custom-back{
+  -fx-background-color: #f3dad2;
+}
+
+.text-area{
+  -fx-background-color: #faf6f6;
+  -fx-border-color: #520e0b;
 }

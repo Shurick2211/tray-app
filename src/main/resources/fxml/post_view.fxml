@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane focusTraversable="true" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nimko.trayapp.fx.windows.PostWindow">
+<AnchorPane focusTraversable="true" prefHeight="400.0" prefWidth="600.0" styleClass="custom-back" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nimko.trayapp.fx.windows.PostWindow">
    <children>
-      <Text layoutX="273.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello">
+      <Text layoutX="6.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="no-font-override" text="Imagine where you would be next year if you start right now!" textAlignment="CENTER" wrappingWidth="588.82763671875">
          <font>
-            <Font name="Chilanka Regular" size="35.0" />
+            <Font name="Chilanka Regular" size="20.0" />
          </font>
       </Text>
       <ToggleButton fx:id="tb" layoutX="260.0" layoutY="60.0" mnemonicParsing="false" selected="true" text="Calendar" textOverrun="LEADING_WORD_ELLIPSIS" underline="true" />
@@ -17,15 +17,24 @@
       <TextArea fx:id="textArea" layoutX="20.0" layoutY="106.0" prefHeight="264.0" prefWidth="200.0" />
       <AnchorPane fx:id="CalendarCh" layoutX="222.0" layoutY="100.0" prefHeight="245.0" prefWidth="378.0">
          <children>
-            <Label fx:id="dateLabel" layoutX="3.0" text="Date:" />
-            <Label fx:id="hoursLabel" layoutX="5.0" layoutY="100.0" text="Hours" />
+            <Label fx:id="dateLabel" layoutX="3.0" text="Date:">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <Label fx:id="hoursLabel" layoutX="5.0" layoutY="100.0" text="Hours">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
             <Slider fx:id="hoursCh" blockIncrement="1.0" layoutX="5.0" layoutY="130.0" majorTickUnit="3.0" max="23.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Slider>
             <Spinner fx:id="hT" editable="true" layoutX="270.0" layoutY="125.0" prefHeight="26.0" prefWidth="70.0" />
-           <Label fx:id="minutesLabel" layoutX="5.0" layoutY="170.0" text="Minutes" />
+           <Label fx:id="minutesLabel" layoutX="5.0" layoutY="170.0" text="Minutes">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
            <Slider fx:id="minutesCh" blockIncrement="1.0" layoutX="5.0" layoutY="200.0" majorTickUnit="10.0" max="59.0" minorTickCount="1" prefWidth="250.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
@@ -33,50 +42,74 @@
             </Slider>
             <Spinner fx:id="mT" editable="true" layoutX="270.0" layoutY="195.0" prefHeight="26.0" prefWidth="70.0" />
             <DatePicker fx:id="datePicker" layoutX="14.0" layoutY="40.0" prefHeight="26.0" prefWidth="250.0" />
-            <AnchorPane fx:id="periodAnchor" layoutX="-1.0" layoutY="2.0" prefHeight="110.0" prefWidth="343.0">
+            <AnchorPane fx:id="periodAnchor" layoutY="-2.0" prefHeight="110.0" prefWidth="343.0">
                <children>
-                  <CheckBox fx:id="onlyCh" layoutX="14.0" layoutY="31.0" mnemonicParsing="false" text="By week day" />
+                  <CheckBox fx:id="onlyCh" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" text="By week day">
+                     <font>
+                        <Font size="14.0" />
+                     </font></CheckBox>
                   <HBox fx:id="dayBox" alignment="CENTER" layoutX="3.0" layoutY="59.0" prefHeight="51.0" prefWidth="338.0" spacing="20.0">
                      <children>
                         <VBox>
                            <children>
-                              <Label fx:id="mnL" text="Mn" />
+                              <Label fx:id="mnL" text="Mn">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                               <CheckBox fx:id="mnCh" mnemonicParsing="false" />
                            </children>
                         </VBox>
                         <VBox>
                            <children>
-                              <Label fx:id="tuL" text="Tu" />
+                              <Label fx:id="tuL" text="Tu">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                               <CheckBox fx:id="tuCh" mnemonicParsing="false" />
                            </children>
                         </VBox>
                         <VBox>
                            <children>
-                              <Label fx:id="weL" text="We" />
+                              <Label fx:id="weL" text="We">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                               <CheckBox fx:id="weCh" mnemonicParsing="false" />
                            </children>
                         </VBox>
                         <VBox>
                            <children>
-                              <Label fx:id="thL" text="Th" />
+                              <Label fx:id="thL" text="Th">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                               <CheckBox fx:id="thCh" mnemonicParsing="false" />
                            </children>
                         </VBox>
                         <VBox>
                            <children>
-                              <Label fx:id="frL" text="Fr" />
+                              <Label fx:id="frL" text="Fr">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                               <CheckBox fx:id="frCh" mnemonicParsing="false" />
                            </children>
                         </VBox>
                         <VBox>
                            <children>
-                              <Label fx:id="stL" text="St" />
+                              <Label fx:id="stL" text="St">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                               <CheckBox fx:id="stCh" mnemonicParsing="false" />
                            </children>
                         </VBox>
                         <VBox>
                            <children>
-                              <Label fx:id="suL" text="Su" />
+                              <Label fx:id="suL" text="Su">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Label>
                               <CheckBox fx:id="suCh" mnemonicParsing="false" />
                            </children>
                         </VBox>
@@ -86,6 +119,9 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label fx:id="textLabel" layoutX="20.0" layoutY="77.0" text="Text:" />
+      <Label fx:id="textLabel" layoutX="20.0" layoutY="77.0" text="Text:">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
    </children>
 </AnchorPane>

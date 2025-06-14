@@ -67,7 +67,6 @@ class NotesWindows(
 
     fun initialize() {
         addAll()
-        addButton.text = "➕"
         addButton.setOnAction {
             createCard(NotesEntity(null,"", Instant.now()))
         }
