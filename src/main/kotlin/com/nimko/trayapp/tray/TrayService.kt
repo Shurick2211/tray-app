@@ -4,6 +4,7 @@ import com.nimko.trayapp.fx.windows.ListWindow
 import com.nimko.trayapp.fx.windows.NotesWindows
 import com.nimko.trayapp.fx.windows.PostWindow
 import com.nimko.trayapp.i18n.Translator
+import com.nimko.trayapp.services.RandomLineService
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import org.springframework.beans.factory.annotation.Value
@@ -17,7 +18,8 @@ class TrayService(
     private val postWindow: PostWindow,
     private val translator: Translator,
     private val listWindow: ListWindow,
-    private val notesWindows: NotesWindows
+    private val notesWindows: NotesWindows,
+    private val randomLineService: RandomLineService,
 ) {
     private var trayIcon: TrayIcon? = null
     lateinit var postItem: MenuItem
@@ -25,6 +27,7 @@ class TrayService(
     lateinit var exitItem: MenuItem
     lateinit var listItem: MenuItem
     lateinit var notesItem: MenuItem
+    lateinit var quoteItem: MenuItem
     @Value("\${app.title}")
     var appTitle: String? = null
 
@@ -70,6 +73,13 @@ class TrayService(
             }
         }
 
+        quoteItem = MenuItem(translator.get("quote")).apply {
+            addActionListener {
+                println("Quote!")
+                randomLineService.notifyQuote()
+            }
+        }
+
         exitItem = MenuItem(translator.get("exit")).apply {
             addActionListener {
                 tray.remove(trayIcon)
@@ -105,6 +115,7 @@ class TrayService(
         popup.add(listItem)
         popup.addSeparator()
         popup.add(notesItem)
+        popup.add(quoteItem)
         popup.addSeparator()
         popup.add(langItem)
         popup.addSeparator()
@@ -133,6 +144,7 @@ class TrayService(
         exitItem.label = translator.get("exit")
         listItem.label = translator.get("list.event")
         notesItem.label = translator.get("notes")
+        quoteItem.label = translator.get("quote")
         Platform.runLater {
             postWindow.setText()
         }

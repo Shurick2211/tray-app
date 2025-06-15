@@ -1,15 +1,15 @@
 package com.nimko.trayapp.services
 
+import com.nimko.trayapp.services.notify.NotificationService
 import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.nio.file.Files
-import java.nio.file.Paths
 import kotlin.random.Random
 
 @Service
-class RandomLineService {
+class RandomLineService(
+    private val notificationService: NotificationService
+) {
 
     private val log = LoggerFactory.getLogger(RandomLineService::class.java)
     private val lines = mutableListOf<String>()
@@ -29,5 +29,9 @@ class RandomLineService {
         if (lines.isEmpty()) return null
         val randomIndex = Random.nextInt(lines.size)
         return lines[randomIndex]
+    }
+
+    fun notifyQuote() {
+        notificationService.notification(getRandomLine()?:"not found...")
     }
 }
