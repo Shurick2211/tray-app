@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+  fx:id="anchor"
+  xmlns:fx="http://javafx.com/fxml" styleClass="custom-back"
+  fx:controller="com.nimko.trayapp.fx.windows.QuoteWindows"
+  prefHeight="100.0" prefWidth="600.0">
+  <children>
+    <Text fx:id="quote" layoutX="6.0" layoutY="29.0" strokeType="OUTSIDE"
+      styleClass="no-font-override"
+      wrappingWidth="590"  strokeWidth="0.0"
+      text="Imagine where you would be next year if you start right now!" textAlignment="CENTER"
+      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+      >
+      <font>
+        <Font name="Chilanka Regular" size="20.0"/>
+      </font>
+    </Text>
+  </children>
+</AnchorPane>

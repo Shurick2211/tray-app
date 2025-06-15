@@ -3,14 +3,14 @@ package com.nimko.trayapp.tray
 import com.nimko.trayapp.fx.windows.ListWindow
 import com.nimko.trayapp.fx.windows.NotesWindows
 import com.nimko.trayapp.fx.windows.PostWindow
+import com.nimko.trayapp.fx.windows.QuoteWindows
 import com.nimko.trayapp.i18n.Translator
-import com.nimko.trayapp.services.RandomLineService
 import jakarta.annotation.PostConstruct
 import javafx.application.Platform
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.awt.*
-import java.util.Locale
+import java.util.*
 
 
 @Service
@@ -19,7 +19,7 @@ class TrayService(
     private val translator: Translator,
     private val listWindow: ListWindow,
     private val notesWindows: NotesWindows,
-    private val randomLineService: RandomLineService,
+    private val quoteWindows: QuoteWindows,
 ) {
     private var trayIcon: TrayIcon? = null
     lateinit var postItem: MenuItem
@@ -76,7 +76,7 @@ class TrayService(
         quoteItem = MenuItem(translator.get("quote")).apply {
             addActionListener {
                 println("Quote!")
-                randomLineService.notifyQuote()
+                quoteWindows.show()
             }
         }
 
